@@ -1,0 +1,35 @@
+\documentclass[10pt]{article}
+
+\input{preambles}
+
+\begin{document}
+
+\setlength{\abovedisplayskip}{3pt}
+\setlength{\belowdisplayskip}{3pt}
+\setlength{\abovedisplayshortskip}{0pt}
+\setlength{\belowdisplayshortskip}{0pt}
+\maketitle
+
+% %Custom colors for different environments
+% \definecolor{contcol1}{HTML}{72E094}
+% \definecolor{contcol2}{HTML}{24E2D6}
+% \definecolor{convcol1}{HTML}{C0392B}
+% \definecolor{convcol2}{HTML}{8E44AD}
+
+% \begin{tcolorbox}[title=Contents, fonttitle=\huge\sffamily\bfseries\selectfont,interior style={left color=contcol1!40!white,right color=contcol2!40!white},frame style={left color=contcol1!80!white,right color=contcol2!80!white},coltitle=black,top=2mm,bottom=2mm,left=2mm,right=2mm,drop fuzzy shadow,enhanced,breakable]
+\makeatletter
+
+% \@starttoc{toc}
+\tableofcontents
+\makeatother
+% \end{tcolorbox}
+
+% \vspace*{10mm}
+
+% \begin{tcolorbox}[title=Conventions, fonttitle=\large\sffamily\bfseries\selectfont,interior style={left color=convcol1!40!white,right color=convcol2!40!white},frame style={left color=convcol1!80!white,right color=convcol2!80!white},coltitle=black,top=2mm,bottom=2mm,left=2mm,right=2mm,drop fuzzy shadow,enhanced,breakable]
+% $\F$ denotes either $\R$ or $\C$.\\
+% $\N$ denotes the set $\{1,2,3,...\}$ of natural numbers (excluding $0$).
+% \end{tcolorbox}
+\input{main}
+
+\end{document}
