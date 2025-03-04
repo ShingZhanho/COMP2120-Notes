@@ -1,1 +1,19 @@
 \subsection{Cache Memory}
+
+Cache memory is transparent (hidden) to the software and is managed by the hardware.
+It stores copies of frequently accessed data to speed up subsequent access to that data.
+
+There can be one or more layers between the CPU and main memory.
+The transfer between the CPU and L1 cache is the fastest, and the speed decreases
+as the distance from the CPU increases.
+
+\subsubsection{Cache Memory Organisation}
+
+A word-addressable main memory with $n$-bit addresses has $2^n$ words. Divide the
+main memory into blocks of $K$ words each, then the memory has $M=\frac{2^n}{K}$ blocks.
+Suppose the cache has $m$ blocks, called \textbf{lines}. Generally, we have $m \ll M$.
+Each line has $K$ words, a tag, and several control bits. The length of the line,
+excluding the tag and the control bits is called the \textbf{line size} or
+\textbf{block length}.
+
+\subsubsection{Address Mapping}

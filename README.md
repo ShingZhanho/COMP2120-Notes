@@ -13,3 +13,7 @@ without the written permission of the author(s) and the author(s) of the textboo
 The author(s) of the textbook shall not be held responsible for any errors or omissions
 in the notes. Opinions and views expressed in the notes are solely the author's and
 do not represent the views of the author(s) of the textbook.
+
+The purpose of this repository is to use GitHub Actions to automatically build the
+PDF document, which can be accessed at 
+[here](https://shingzhanho.github.io/COMP2120-Notes/).
