@@ -41,7 +41,7 @@ There are three ways to map the main memory to the cache:
 \begin{enumerate}
 \item \textbf{Direct Mapping}: 
     Each block of main memory maps to exactly one line in the cache. The mapping is
-    given as $i = j\mod m$, where $i$ is the cache line number, $j$ is the main memory
+    given as $i = j \bmod m$, where $i$ is the cache line number, $j$ is the main memory
     block number, and $m$ is the number of cache lines.
     
     \begin{example}
@@ -100,6 +100,43 @@ There are three ways to map the main memory to the cache:
     \end{multicols}
 
 \item \textbf{Set Associative Mapping}:
-    Placeholder.
+    The cache consists of a number of sets, and each sets consists of a number of lines.
+    Their relationship is given by
+    \begin{align*}
+        m &= v \times k \\
+        i &= j \bmod v
+    \end{align*}
+    where $i$ is the set number, $j$ is the main memory block number, $m$ is the number
+    of lines in cache, $v$ is the number of sets, and $k$ is the number of lines in each set.
+    ($k$ is usually 2, the maximum is 8.) Also referred to as $k$-way set associative mapping.
+
+    Block $B_j$ in main memory maps to any of the lines in set $j$ in the cache. There are
+    two ways of implementing a set associative mapping, either as
+    \begin{enumerate}
+        \item $v$ assiciative-mapped caches 
+            (usually used for high associativity, i.e. larger $k$).
+            Each cache is called a \textbf{set}.
+        \item $k$ direct-mapped caches (for lower associativity).
+            Each cache is called a \textbf{way}.
+    \end{enumerate}
+
+    The cache control logic treats the $(s+w)$-bit main memory address in three parts:
+    tag, set, and word.
+    The $d$ bits of set identifies the set in cache, where $v = 2^d$.
+    The least significant $w$ bits identify the word.
+    The remaining $(s-d)$ bits are the tag bits.
+
+    With this method, the tag size is much smaller than in fully associative mapping,
+    and each tag is only compared with $k$ tags in a single set.
+
+    \begin{multicols}{2}
+        \textbf{Advantages}: \begin{itemize}
+            \item Fewer misses than direct mapping.
+        \end{itemize}
+        \columnbreak
+        \textbf{Disadvantages}: \begin{itemize}
+            \item Complex selection and comparison logic, slightly slower.
+        \end{itemize}
+    \end{multicols}
 
 \end{enumerate}
