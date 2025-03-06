@@ -65,6 +65,19 @@ There are three ways to map the main memory to the cache:
     address. If the tags do not match, the block is read from the main memory into the
     cache, and the word is read from the cache.
 
+    \begin{multicols*}{2}
+        \textbf{Advantages}: \begin{itemize}
+            \item Only need to check one cache line, fast.
+            \item No selection is required, less use of logic gates, inexpensive.
+        \end{itemize}
+        \columnbreak
+        \textbf{Disadvantages}: \begin{itemize}
+            \item When two blocks map to the same line are accessed alternatively,
+                constant cache misses occur.
+            \item The cache is not fully utilised.
+        \end{itemize}
+    \end{multicols*}
+
 \item \textbf{Fully Associative Mapping}:
 
 
