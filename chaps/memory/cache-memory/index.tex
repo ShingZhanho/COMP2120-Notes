@@ -65,7 +65,7 @@ There are three ways to map the main memory to the cache:
     address. If the tags do not match, the block is read from the main memory into the
     cache, and the word is read from the cache.
 
-    \begin{multicols*}{2}
+    \begin{multicols}{2}
         \textbf{Advantages}: \begin{itemize}
             \item Only need to check one cache line, fast.
             \item No selection is required, less use of logic gates, inexpensive.
@@ -76,7 +76,7 @@ There are three ways to map the main memory to the cache:
                 constant cache misses occur.
             \item The cache is not fully utilised.
         \end{itemize}
-    \end{multicols*}
+    \end{multicols}
 
 \item \textbf{Fully Associative Mapping}:
     Any block of main memory can be loaded into any line of the cache. The main memory
@@ -140,3 +140,20 @@ There are three ways to map the main memory to the cache:
     \end{multicols}
 
 \end{enumerate}
+
+\begin{example}
+    Suppose a computer has a byte-addressable main memory with addresses of 32 bits,
+    a 64 KB 2-way set associative cache memory, and the block size is 128 bytes. Find
+    the number of bits in the tag, set, and word fields of the main memory address.
+
+    \begin{solution}
+    Since the block size is 128 ($2^7$) bytes, then the word field is 7 bits.
+
+    Number of blocks in cache memory is $64 \times 2^{10} \div 2^7 = 512$ blocks.
+
+    Number of sets in cache memory is $512 \div 2 = 256 = 2^8$ sets. Therefore, the set
+    field is 8 bits.
+
+    The remaining bits are the tag field, which is $32 - 8 - 7 = 17$ bits.
+    \end{solution}
+\end{example}
