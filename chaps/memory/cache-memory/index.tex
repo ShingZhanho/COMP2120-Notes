@@ -79,9 +79,27 @@ There are three ways to map the main memory to the cache:
     \end{multicols*}
 
 \item \textbf{Fully Associative Mapping}:
+    Any block of main memory can be loaded into any line of the cache. The main memory
+    address is treated as two parts only -- the tag and the word bits. Again, for a main
+    memory address of $(s+w)$ bits, and a cache memory with block length of $2^w$ words,
+    the word bits are the least significant $w$ bits, and the tag bits are the remaining
+    $s$ bits.
 
+    To perform a read operation, the cache controller searches the entire cache for the
+    desired tag. If it is a miss, the block is read from the main memory into the cache.
+
+    \begin{multicols}{2}
+        \textbf{Advantages}: \begin{itemize}
+            \item More flexible use of cache than direct mapping.
+        \end{itemize}
+        \columnbreak
+        \textbf{Disadvantages}: \begin{itemize}
+            \item Requires more complex logic and circuits for tag comparison, more expensive.
+            \item Has $O(n)$ time complexity for searching through the cache.
+        \end{itemize}
+    \end{multicols}
 
 \item \textbf{Set Associative Mapping}:
-
+    Placeholder.
 
 \end{enumerate}
