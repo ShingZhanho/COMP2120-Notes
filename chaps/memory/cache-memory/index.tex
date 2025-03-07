@@ -211,3 +211,31 @@ whenever the cache line to be replaced has been modified. There are two write po
     is set. This method minimises the number of main memory writes and is faster.
     The main drawback is that the main memory may be inconsistent.
 \end{enumerate}
+
+\subsubsection{Performance}
+
+\begin{definition}[Average Access Time]
+    The average access time of a cache memory is given by
+    \begin{align*}
+        \text{Average Access Time}
+        &= \text{Hit Rate} \times \text{Hit Time} + \text{Miss Rate} \times \text{Average Time When Miss} \\
+        &= \text{Hit Time} + \text{Miss Rate} \times \text{Miss Penalty}
+    \end{align*}
+\end{definition}
+
+\begin{example}
+    Assume the access time of main memory is 50 ns, the L1 cache has a miss rate and access
+    time of 10\% and 1ns, respectively, the L2 cache has a miss rate and access time
+    of 5\% and 5ns, respectively, and the L3 cache has a miss rate and access time of 2\%
+    and 10ns, respectively. Calculate the average access time of the memory system.
+
+    \begin{solution}
+        When there is no cahce, access time $=50$ns.
+
+        When there is only L1 cache, access time $=1+10\%\times 50=6$ns.
+
+        When there are L1 and L2 caches, access time $=1+10\%\times(5+5\%\times 50)=1.75$ns.
+
+        When there are L1 to L3 caches, access time $=1+10\%\times(5+5\%\times(10+2\%\times 50))=\boxed{1.555\text{ ns}}$.
+    \end{solution}
+\end{example}
