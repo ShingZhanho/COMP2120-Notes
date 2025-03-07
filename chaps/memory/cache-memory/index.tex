@@ -171,3 +171,26 @@ There are three ways to map the main memory to the cache:
     \end{table}
     \end{solution}
 \end{example}
+
+\subsubsection{Replacement Algorithms}
+
+When all lines are occupied and a new block needs to be loaded into the cache, a line
+must be selected to be replaced. The different replacement algorithms are:
+\begin{enumerate}
+\item \textbf{Random Replacement} (RR): 
+    A random line is selected to be replaced. This is the simplest method, but it
+    does not guarantee the best performance. Not used in practice.
+
+\item \textbf{First-In-First-Out} (FIFO):
+    The line that has been in the cache the longest is replaced. It does not consider
+    the frequency of use of the block.
+
+\item \textbf{Least Recently Used} (LRU):
+    The line that has not been used for the longest time is replaced.
+
+\item \textbf{Least Frequently Used} (LFU):
+    The line that has the fewest references is replaced, often implemented with a counter.
+\end{enumerate}
+
+Note that replacement algorithms do not apply to direct-mapped caches, as there is only
+one possible line to replace.
