@@ -194,3 +194,20 @@ must be selected to be replaced. The different replacement algorithms are:
 
 Note that replacement algorithms do not apply to direct-mapped caches, as there is only
 one possible line to replace.
+
+\subsubsection{Write Policies}
+
+To maintain consistency between the cache and main memory, the main memory must be updated
+whenever the cache line to be replaced has been modified. There are two write policies:
+\begin{enumerate}
+\item \textbf{Write-Through}:
+    The main memory is updated whenever the cache is updated. This ensures that the main
+    memory is always up-to-date, but it is slower as the CPU must wait for the main memory
+    to be updated.
+
+\item \textbf{Write-Back}:
+    The line is associated with a \textbf{dirty bit} that is set whenever the line is
+    modified. The main memory is only updated when the line is replaced and the dirty bit
+    is set. This method minimises the number of main memory writes and is faster.
+    The main drawback is that the main memory may be inconsistent.
+\end{enumerate}
