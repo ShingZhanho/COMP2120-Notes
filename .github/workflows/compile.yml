@@ -74,39 +74,39 @@ jobs:
               id: deployment
               uses: actions/deploy-pages@v4
               
-      build-by-miktex:
-        name: Build by MiKTeX
-        runs-on: ubuntu-22.04
-        steps:
-          - name: Checkout repository
-            uses: actions/checkout@v4
-          ## Configure GPG key
-          - name: Configure MiKTeX GPG key
-            run: |
-              curl -fsSL https://miktex.org/download/key | sudo tee /usr/share/keyrings/miktex-keyring.asc > /dev/null
-              echo "deb [signed-by=/usr/share/keyrings/miktex-keyring.asc] https://miktex.org/download/ubuntu jammy universe" | sudo tee /etc/apt/sources.list.d/miktex.list
-          ## Prepare the environment
-          - name: Update apt-get sources
-            run: sudo apt-get update
-          - name: Get dependencies list
-            run: export APT_LIST=$(awk '{$1=$1}1' OFS='NNNNN' RS='' apt-list.txt)
-          ## Install MiKTeX
-          - name: Install MiKTeX and dependencies
-            uses: awalsh128/cache-apt-pkgs-action@v1
-            with:
-              packages: ${{ env.APT_LIST }}
-          - name: Finish MiKTeX setup
-            run: |
-              miktexsetup finish
-              initexmf --set-config-value [MPM]AutoInstall=1
-              miktex packages update
-          ## Compile the document
-          - name: Compile LaTeX notes
-            run: latexmk -shell-escape -pdf -interaction=nonstopmode -outdir=. COMP2120-Notes.tex
-          ## Upload the artifact
-          - name: Upload artifact
-            uses: actions/upload-artifact@v4
-            with:
-              name: notes-miktex
-              path: COMP2120-Notes.pdf
-              retention-days: 1
+    build-by-miktex:
+      name: Build by MiKTeX
+      runs-on: ubuntu-22.04
+      steps:
+        - name: Checkout repository
+          uses: actions/checkout@v4
+        ## Configure GPG key
+        - name: Configure MiKTeX GPG key
+          run: |
+            curl -fsSL https://miktex.org/download/key | sudo tee /usr/share/keyrings/miktex-keyring.asc > /dev/null
+            echo "deb [signed-by=/usr/share/keyrings/miktex-keyring.asc] https://miktex.org/download/ubuntu jammy universe" | sudo tee /etc/apt/sources.list.d/miktex.list
+        ## Prepare the environment
+        - name: Update apt-get sources
+          run: sudo apt-get update
+        - name: Get dependencies list
+          run: export APT_LIST=$(awk '{$1=$1}1' OFS='NNNNN' RS='' apt-list.txt)
+        ## Install MiKTeX
+        - name: Install MiKTeX and dependencies
+          uses: awalsh128/cache-apt-pkgs-action@v1
+          with:
+            packages: ${{ env.APT_LIST }}
+        - name: Finish MiKTeX setup
+          run: |
+            miktexsetup finish
+            initexmf --set-config-value [MPM]AutoInstall=1
+            miktex packages update
+        ## Compile the document
+        - name: Compile LaTeX notes
+          run: latexmk -shell-escape -pdf -interaction=nonstopmode -outdir=. COMP2120-Notes.tex
+        ## Upload the artifact
+        - name: Upload artifact
+          uses: actions/upload-artifact@v4
+          with:
+            name: notes-miktex
+            path: COMP2120-Notes.pdf
+            retention-days: 1
