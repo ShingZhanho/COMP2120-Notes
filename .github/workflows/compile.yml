@@ -102,7 +102,7 @@ jobs:
             miktex packages update
         ## Compile the document
         - name: Compile LaTeX notes
-          run: latexmk -shell-escape -pdf -interaction=nonstopmode -outdir=. COMP2120-Notes.tex
+          run: miktex-latexmk -shell-escape -pdf -interaction=nonstopmode -outdir=. COMP2120-Notes.tex
         ## Upload the artifact
         - name: Upload artifact
           uses: actions/upload-artifact@v4
