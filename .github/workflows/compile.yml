@@ -98,9 +98,13 @@ jobs:
         - name: Finish MiKTeX setup
           run: |
             miktexsetup finish
+            mpm --update-db
             initexmf --set-config-value [MPM]AutoInstall=1
+            initexmf --update-fndb
             miktex packages update
-            miktex packages install latexmk
+            initexmf --mklinks
+            mpm --package-level=basic --upgrade
+            initexmf --mkmaps
         ## Compile the document
         - name: Compile LaTeX notes
           run: miktex-latexmk -shell-escape -pdf -interaction=nonstopmode -outdir=. COMP2120-Notes.tex
