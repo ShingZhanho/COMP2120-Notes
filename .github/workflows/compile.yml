@@ -47,7 +47,7 @@ jobs:
 
             - name: Compile with MiKTeX image
               run: |
-                  docker run -ti -v miktex:/var/lib/miktex -v "$(pwd)":/miktex/work -e MIKTEX_UID=$(id -u) miktex/miktex:basic \
+                  docker run -v miktex:/var/lib/miktex -v "$(pwd)":/miktex/work -e MIKTEX_UID=$(id -u) miktex/miktex:basic \
                     latexmk --shell-escape -synctex=1 -interaction=nonstopmode -file-line-error -pdf COMP2120-Notes.tex
 
             - name: Upload artifact
