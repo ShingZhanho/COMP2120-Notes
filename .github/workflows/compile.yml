@@ -100,9 +100,10 @@ jobs:
             miktexsetup finish
             initexmf --set-config-value [MPM]AutoInstall=1
             miktex packages update
+            miktex packages install latexmk
         ## Compile the document
         - name: Compile LaTeX notes
-          run: miktex-latexmk -shell-escape -pdf -interaction=nonstopmode -outdir=. COMP2120-Notes.tex
+          run: latexmk -shell-escape -pdf -interaction=nonstopmode -outdir=. COMP2120-Notes.tex
         ## Upload the artifact
         - name: Upload artifact
           uses: actions/upload-artifact@v4
