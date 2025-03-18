@@ -239,3 +239,25 @@ whenever the cache line to be replaced has been modified. There are two write po
         When there are L1 to L3 caches, access time $=1+10\%\times(5+5\%\times(10+2\%\times 50))=\boxed{1.555\text{ ns}}$.
     \end{solution}
 \end{example}
+
+\begin{example}
+    Consider a hypothetical machine with 512 words of cache memory. They are in two-way
+    set associative organisation, with cache block size of 64 words, using LRU replacement.
+    Suppose the cache hit time is 8 ns, and the time to transfer the first word from main
+    memory to cache is 60 ns, while subsequent words require 10 ns each. 
+    \begin{enumerate}
+        \item What is the cache miss penalty?
+        \item If there is a read sequence of 28 blocks accessed that has 15 cache misses,
+            what is the cache hit rate?
+        \item What is the average memory access time?
+    \end{enumerate}
+
+    \begin{solution}
+    \begin{enumerate}
+        \item Cache miss penalty is the time to transfer one block from main memory to cache.
+            $60+63\times10=\boxed{690\text{ ns}}$
+        \item Cache hit rate $=1-\frac{15}{28\times32}=\boxed{98.33\%}$.
+        \item Average memory access time $=8+(1-0.9833)\times690=\boxed{19.52\text{ ns}}$.
+    \end{enumerate}
+    \end{solution}
+\end{example}

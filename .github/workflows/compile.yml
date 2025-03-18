@@ -77,6 +77,7 @@ jobs:
     build-by-miktex:
       name: Build by MiKTeX
       runs-on: ubuntu-22.04
+      if: contains(github.event.head_commit.message, '@miktex')
       steps:
         - name: Checkout repository
           uses: actions/checkout@v4
@@ -101,8 +102,8 @@ jobs:
             initexmf --set-config-value [MPM]AutoInstall=1
             initexmf --update-fndb
             miktex packages update
-            miktex packages install latexmk
             initexmf --mklinks
+            mpm --package-level=basic --upgrade
             initexmf --mkmaps
         ## Compile the document
         - name: Compile LaTeX notes
