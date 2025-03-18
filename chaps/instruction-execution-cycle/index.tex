@@ -204,3 +204,16 @@ remember the current state of the program, and then jump to serve the interrupt.
 will then return to the original program and continue execution as if nothing happened.
 
 Interrupt handlers can either be hardware or software.
+
+Interrupt signals are checked at the end of one complete instruction cycle, minimising the
+registers that need to be saved/restored. Before each interrupt, the following information
+is saved (by pushing to the stack):
+\begin{itemize}
+    \item Flag register -- to remember the state of the ALU.
+    \item PC -- to remember the address of the next instruction.
+    \item Modified register files.
+    \item The current address of the instruction -- to remember where the program was
+        interrupted, while the address of the interruption program is loaded to PC.
+\end{itemize}
+Other registers (like MAR, MBR, IOAR, etc.) are not saved as they are only meaningful
+during the current instruction cycle.
