@@ -53,14 +53,20 @@ There are three ways to map the main memory to the cache:
             \overbrace{0000\,0001}^{(s-r)\text{ bits (tag)}}\,
             \overbrace{1111\,1111\,1111\,11}^{r\text{ bits (line number)}}}
             _{\text{block number}}
-            \overbrace{00}^{w\text{ bits (word)}}
+            \overbrace{00}^{w\text{ bits (\textcolor{red}{word})}}
         \end{equation*}
-        The least significant $w$ bits identify the word within the block,
-        where the block size is $2^w$ words. The next $r$ bits identify the line
+        The least significant $w$ bits identify the \textcolor{red}{word} within the block,
+        where the block size is $2^w$ \textcolor{red}{words}. The next $r$ bits identify the line
         number within the cache memory, where the cache memory has $2^r$ lines.
         The most significant $(s-r)$ bits are the tag bits, which are used to
         distinguish between the different main memory blocks that map to the same line,
         where the main memory has $2^s$ blocks.
+
+        \begin{remark}
+        If the main memory is byte-addressable, then the \textcolor{red}{word} bits should
+        be referred to as \textcolor{red}{byte} offsets, and they correspond to the number
+        of $2^w$ \textcolor{red}{bytes} in a block.
+        \end{remark}
     \end{example}
 
     To perform a read operation, the line number first identifies the line in the cache.
