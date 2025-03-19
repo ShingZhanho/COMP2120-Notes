@@ -1,0 +1,33 @@
+\section{Number Representation}
+
+\subsection*{Positional Number System}
+$\sum_i (a_ir^i)$ \hfill Direct ($O(n^2)$)\\
+$r(r(a_n + a_{n-1})+\cdots)+a_0$ \hfill Iterative ($O(n)$)\\
+
+\subsection*{Binary Integers}
+\emph{\texttt{uint}}: $\sum_{i=0}^{n-1} 2^i a_i$\\
+\emph{Sign-Mag}: $(-1)^{a_{n-1}}\sum_{i=0}^{n-2} 2^i a_i$\\
+\emph{1's Comp}: (if $<0$) bit-wise NOT\\
+\emph{2's Comp}: (if $<0$) 1's Comp + 1 \quad $-2^{n-1} + \sum_{i=0}^{n-2} 2^i a_i$\\
+MSB of 1's Comp and 2's Comp is sign bit.\\
+
+\subsection*{Binary Integer Arithmetics}
+\subsubsection*{Negation of 2's Comp}
+Take 2's Comp of the 2's Comp.
+\subsubsection*{Add/Sub of 2's Comp}
+Add/Sub directly.\\
+\emph{Overflow}: Two numbers of same sign added to get oppposite sign.
+\subsubsection*{Multiplication (multiplicand $\times$ multiplier)}
+\emph{$+$ve$\times+$ve}: \begin{enumerate*}[label=(\arabic*)]
+    \item for each multiplier bit,
+    \item if 1, shift multiplicand left, add to partial sum,
+    \item if 0, do nothing,
+    \item return sum.
+\end{enumerate*}
+\emph{Other cases}: \begin{enumerate*}[label=(\arabic*)]
+    \item for each non-sign multiplier bit,
+    \item if 1, shift multiplicand left, add to partial sum,
+    \item if 0, do nothing,
+    \item for sign bit, if 1, negate multiplicand, left shift, sign extend, add to partial sum,
+    \item return sum.
+\end{enumerate*}
