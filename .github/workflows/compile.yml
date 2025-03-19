@@ -123,11 +123,16 @@ jobs:
             initexmf --enable-installer
             initexmf --update-fndb
             miktex packages update
-            miktex packages install latexmk
             initexmf --mklinks
             initexmf --mkmaps
         - name: Fix PATH
           run: echo "PATH=$HOME/bin:$PATH" >> "$GITHUB_ENV"
+        ## Restore LaTeX packages cache
+        - name: Cache LaTeX packages
+          uses: actions/cache@v4
+          with:
+            key: miktex-pkg-${{ runner.os }}-${{ hashFiles('packages.tex') }}
+            path: ~/.miktex/texmfs/install
         ## Compile the document
         - name: Compile LaTeX notes
           id: compile
@@ -139,9 +144,9 @@ jobs:
             name: notes-miktex
             path: COMP2120-Notes.pdf
             retention-days: 1
-        ## Upload logs if failed
+        ## Upload logs
         - name: Upload compile logs
-          if: ${{ failure() && steps.compile.conclusion == 'failure' }}
+          if: ${{ always() }}
           uses: actions/upload-artifact@v4
           with:
             name: logs
