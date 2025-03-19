@@ -28,6 +28,8 @@
 \usepackage[nameinlink]{cleveref} %nameinlink ensures that the entire element is clickable in the pdf, not just the number
 \usepackage{cancel}
 \usepackage{minted}
+\usepackage{etoolbox}
+\usepackage[calc,en-GB]{datetime2}
 
 \newcommand{\remind}[1]{\textcolor{red}{\textbf{#1}}} %To remind me of unfinished work to fix later
 \newcommand{\hide}[1]{} %To hide large blocks of code without using % symbols
@@ -287,3 +289,8 @@
     \fi}
 
 \makeatother
+
+
+
+\newbool{INCLUDE_DISCLAIMER}
+\setbool{INCLUDE_DISCLAIMER}{false}
