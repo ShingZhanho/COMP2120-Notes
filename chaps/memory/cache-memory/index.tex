@@ -225,16 +225,16 @@ whenever the cache line to be replaced has been modified. There are two write po
 
 \begin{example}
     Assume the access time of main memory is 50 ns, the L1 cache has a miss rate and access
-    time of 10\% and 1ns, respectively, the L2 cache has a miss rate and access time
-    of 5\% and 5ns, respectively, and the L3 cache has a miss rate and access time of 2\%
+    time of 10\% and 1 ns, respectively, the L2 cache has a miss rate and access time
+    of 5\% and 5 ns, respectively, and the L3 cache has a miss rate and access time of 2\%
     and 10ns, respectively. Calculate the average access time of the memory system.
 
     \begin{solution}
-        When there is no cache, access time $=50$ns.
+        When there is no cache, access time $=50$ ns.
 
-        When there is only L1 cache, access time $=1+10\%\times 50=6$ns.
+        When there is only L1 cache, access time $=1+10\%\times 50=6$ ns.
 
-        When there are L1 and L2 caches, access time $=1+10\%\times(5+5\%\times 50)=1.75$ns.
+        When there are L1 and L2 caches, access time $=1+10\%\times(5+5\%\times 50)=1.75$ ns.
 
         When there are L1 to L3 caches, access time $=1+10\%\times(5+5\%\times(10+2\%\times 50))=\boxed{1.555\text{ ns}}$.
     \end{solution}
