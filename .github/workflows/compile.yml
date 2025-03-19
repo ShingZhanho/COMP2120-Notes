@@ -114,7 +114,6 @@ jobs:
             initexmf --set-config-value [MPM]AutoInstall=1
             initexmf --enable-installer
             initexmf --update-fndb
-            initexmf --find-updates
             miktex packages update
             miktex packages install latexmk
             initexmf --mklinks
