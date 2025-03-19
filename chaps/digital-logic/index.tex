@@ -97,9 +97,61 @@ The truth tables of AND, OR, XOR, and NOT are given by:
 Other than expressions, boolean algebra can also be implemented using logic gates.
 Below is a list of the corresponding gates for the basic boolean operations:
 
-\begin{center}
-    \includegraphics[scale=0.3]{chaps/digital-logic/logic-gates.png}
-\end{center}
+% \begin{center}
+%     \includegraphics[scale=0.3]{chaps/digital-logic/logic-gates.png}
+% \end{center}
+
+\begin{figure}[htb]
+    \centering
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \begin{circuitikz}
+            \draw (0,0) node[ieeestd and port]{};
+        \end{circuitikz}
+        \caption{AND Gate}
+    \end{subfigure}
+    \hfil
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \begin{circuitikz}
+            \draw (0,0) node[ieeestd or port]{};
+        \end{circuitikz}
+        \caption{OR Gate}
+    \end{subfigure}
+    \hfil
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \begin{circuitikz}
+            \draw (0,0) node[ieeestd not port]{};
+        \end{circuitikz}
+        \caption{NOT Gate}
+    \end{subfigure}
+    \hfil
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \begin{circuitikz}
+            \draw (0,0) node[ieeestd nand port]{};
+        \end{circuitikz}
+        \caption{NAND Gate}
+    \end{subfigure}
+    \hfil
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \begin{circuitikz}
+            \draw (0,0) node[ieeestd nor port]{};
+        \end{circuitikz}
+        \caption{NOR Gate}
+    \end{subfigure}
+    \hfil
+    \begin{subfigure}{0.25\textwidth}
+        \centering
+        \begin{circuitikz}
+            \draw (0,0) node[ieeestd xor port]{};
+        \end{circuitikz}
+        \caption{XOR Gate}
+    \end{subfigure}
+    \caption{Logic Gates Symbols}
+\end{figure}
 
 \subsection{Functional Completeness}\label{subsec:functional-completeness}
 \begin{definition}[Functional Completeness]
