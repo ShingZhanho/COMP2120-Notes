@@ -10,5 +10,4 @@ make
 miktex
 perl
 python3
-python3-pygments
 wget
