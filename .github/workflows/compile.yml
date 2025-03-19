@@ -14,7 +14,7 @@ jobs:
     compile:
       name: Compile LaTeX notes
       runs-on: ubuntu-latest
-      if: contains(github.event.head_commit.message, '@nodeploy')
+      if: !contains(github.event.head_commit.message, '@nodeploy')
       steps:
           - name: Checkout repository
             uses: actions/checkout@v4
@@ -112,15 +112,17 @@ jobs:
           run: |
             miktexsetup finish
             initexmf --set-config-value [MPM]AutoInstall=1
+            initexmf --enable-installer
             initexmf --update-fndb
+            initexmf --find-updates
             miktex packages update
+            miktex packages install latexmk
             initexmf --mklinks
-            mpm --package-level=basic --upgrade
             initexmf --mkmaps
         ## Compile the document
         - name: Compile LaTeX notes
           id: compile
-          run: miktex-pdflatex -shell-escape -interaction=nonstopmode -output-directory=. COMP2120-Notes.tex
+          run: latexmk -shell-escape -interaction=nonstopmode -output-directory=. COMP2120-Notes.tex
         ## Upload the artifact
         - name: Upload artifact
           uses: actions/upload-artifact@v4
