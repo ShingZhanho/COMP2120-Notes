@@ -132,7 +132,7 @@ jobs:
           uses: actions/cache@v4
           with:
             key: miktex-pkg-${{ runner.os }}-${{ hashFiles('packages.tex') }}
-            path: ~/.miktex/texmfs/install
+            path: ~/.miktex
         ## Compile the document
         - name: Compile LaTeX notes
           id: compile
