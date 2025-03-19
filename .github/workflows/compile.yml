@@ -118,6 +118,9 @@ jobs:
             miktex packages install latexmk
             initexmf --mklinks
             initexmf --mkmaps
+        ## Debug
+        - name: Show contents in bin
+          run: ls -la ~/bin
         ## Compile the document
         - name: Compile LaTeX notes
           id: compile
