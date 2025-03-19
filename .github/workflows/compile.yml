@@ -108,6 +108,10 @@ jobs:
           uses: awalsh128/cache-apt-pkgs-action@v1
           with:
             packages: ${{ env.APT_LIST }}
+        - uses: actions/setup-python@v5
+          with:
+            python-version: '3.13'
+            cache: 'pip'
         - name: Install Python packages
           run: |
             python -m pip install --upgrade pip

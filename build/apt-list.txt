@@ -9,5 +9,4 @@ gpg
 make
 miktex
 perl
-python3
 wget
