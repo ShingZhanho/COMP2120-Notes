@@ -116,23 +116,23 @@ jobs:
           run: |
             python -m pip install --upgrade pip
             pip install -r build/requirements.txt
-        - name: Finish MiKTeX setup
-          run: |
-            miktexsetup finish
-            initexmf --set-config-value [MPM]AutoInstall=1
-            initexmf --enable-installer
-            initexmf --update-fndb
-            miktex packages update
-            initexmf --mklinks
-            initexmf --mkmaps
-        - name: Fix PATH
-          run: echo "PATH=$HOME/bin:$PATH" >> "$GITHUB_ENV"
         ## Restore LaTeX packages cache
         - name: Cache LaTeX packages
           uses: actions/cache@v4
           with:
             key: miktex-pkg-${{ runner.os }}-${{ hashFiles('packages.tex') }}
             path: ~/.miktex
+        ## Finish MiKTeX setup
+        - name: Finish MiKTeX setup
+          run: |
+            miktexsetup finish
+            initexmf --set-config-value [MPM]AutoInstall=1
+            initexmf --enable-installer
+            initexmf --update-fndb
+            initexmf --mklinks
+            initexmf --mkmaps
+        - name: Fix PATH
+          run: echo "PATH=$HOME/bin:$PATH" >> "$GITHUB_ENV"
         ## Compile the document
         - name: Compile LaTeX notes
           id: compile
