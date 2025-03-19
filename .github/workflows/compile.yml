@@ -118,9 +118,8 @@ jobs:
             miktex packages install latexmk
             initexmf --mklinks
             initexmf --mkmaps
-        ## Debug
-        - name: Show contents in bin
-          run: ls -la ~/bin
+        - name: Fix PATH
+          run: echo "PATH=$HOME/bin:$PATH" >> "$GITHUB_ENV"
         ## Compile the document
         - name: Compile LaTeX notes
           id: compile
