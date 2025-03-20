@@ -57,22 +57,20 @@ jobs:
           name: github-pages
           url: ${{ steps.deployment.outputs.page_url }}
       steps:
-          - name: Create HTML file
-            run: |
-                mkdir out
-                echo "<!DOCTYPE html><html><head><title>COMP2120 Notes</title><meta http-equiv='refresh' content='0;url=COMP2120-Notes.pdf'></head><body><a href="COMP2120-Notes.pdf">Download Notes</a></body></html>" > out/index.html
-
+          - name: Checkout repository
+            uses: actions/checkout@v4
+            
           - name: Download artifact
             uses: actions/download-artifact@v4
             with:
               name: notes-miktex
-              path: out
+              path: gh-pages
               merge-multiple: true
 
           - name: Upload static files as artifact
             uses: actions/upload-pages-artifact@v3
             with:
-              path: out
+              path: gh-pages
 
           - name: Configure pages
             uses: actions/configure-pages@v5
@@ -120,7 +118,7 @@ jobs:
         - name: Cache LaTeX packages
           uses: actions/cache@v4
           with:
-            key: miktex-pkg-${{ runner.os }}-${{ hashFiles('packages.tex') }}
+            key: miktex-pkg-${{ runner.os }}-${{ hashFiles('packages.tex', 'cheatsheet/packages.tex') }}
             path: ~/.miktex
         ## Finish MiKTeX setup
         - name: Finish MiKTeX setup
@@ -137,12 +135,17 @@ jobs:
         - name: Compile LaTeX notes
           id: compile
           run: latexmk -shell-escape -interaction=nonstopmode -pdf -outdir=. -f COMP2120-Notes.tex
+        - name: Compile LaTeX cheatsheet
+          id: compile-cheatsheet
+          run: latexmk -shell-escape -interaction=nonstopmode -pdf -outdir=./cheatsheet -f ./cheatsheet/COMP2120-Cheatsheet.tex 
         ## Upload the artifact
         - name: Upload artifact
           uses: actions/upload-artifact@v4
           with:
             name: notes-miktex
-            path: COMP2120-Notes.pdf
+            path: |
+              COMP2120-Notes.pdf
+              cheatsheet/COMP2120-Cheatsheet.pdf
             retention-days: 1
         ## Upload logs
         - name: Upload compile logs

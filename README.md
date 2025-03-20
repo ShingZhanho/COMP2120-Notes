@@ -4,16 +4,20 @@
 
 The revision notes are automatically compiled and published on GitHub Pages.
 
-[>> Download <<](https://shingzhanho.github.io/COMP2120-Notes/)
+[>> Download <<](https://shingzhanho.github.io/COMP2120-Notes/COMP2120-Notes.pdf)
 
 ## Exam Cheatsheet
 
-An A4 double sided cheatsheet is also prepared for the final examination.
-There will not be compiled PDF for downloading since the compilation for the cheatsheet
-requires minimal environment setup.
+🚧 [**Working in Progress**] Contribution is welcome.
 
-You can access the source codes under the `cheatsheet` directory and compile the
-PDF either locally or on overleaf.
+An A4 double sided cheatsheet is also prepared for the final examination.
+
+[>> Download <<](https://shingzhanho.github.io/COMP2120-Notes/COMP2120-Cheatsheet.pdf)
+
+> [!warning]
+> You are responsible for checking the latest guidelines and requirements for the exam
+> cheatsheet in your year.
+> The author shall not be responsible should you violate examination regulations.
 
 # Important Notice
 
