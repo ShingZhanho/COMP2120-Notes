@@ -137,7 +137,9 @@ jobs:
           run: latexmk -shell-escape -interaction=nonstopmode -pdf -outdir=. -f COMP2120-Notes.tex
         - name: Compile LaTeX cheatsheet
           id: compile-cheatsheet
-          run: latexmk -shell-escape -interaction=nonstopmode -pdf -outdir=. -f ./cheatsheet/COMP2120-Cheatsheet.tex 
+          run: |
+            latexmk -shell-escape -interaction=nonstopmode -pdf -outdir=./cheatsheet -f ./cheatsheet/COMP2120-Cheatsheet.tex
+            mv ./cheatsheet/COMP2120-Cheatsheet.pdf .
         ## Upload the artifact
         - name: Upload artifact
           uses: actions/upload-artifact@v4
