@@ -142,7 +142,7 @@ jobs:
         - name: Compile target - ${{ matrix.target }}
           id: compile
           run: |
-            latexmk -shell-escape -interaction=nonstopmode -pdf -cd -outdir=./notes -f ./notes/COMP2120-Notes.tex
+            latexmk -shell-escape -interaction=nonstopmode -pdf -cd -outdir=./${{ matrix.target }} -f ./${{ matrix.target }}/${{ env.ROOT_FILE }}
             mv ./${{ matrix.target }}/${{ env.ROOT_FILE }} .
         ## Upload the artifact
         - name: Find output file
