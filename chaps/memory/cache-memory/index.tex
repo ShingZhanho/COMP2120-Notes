@@ -267,3 +267,19 @@ whenever the cache line to be replaced has been modified. There are two write po
     \end{enumerate}
     \end{solution}
 \end{example}
+
+\subsubsection{Unified Cache and Split Cache}
+
+\begin{enumerate}
+    \item \textbf{Split Cache}:
+        The cache is divided into instruction cache and data cache.
+        Size for each cache is fixed.
+        No pipeline hazard.
+        The main trend is to use split cache.
+        
+    \item \textbf{Unified Cache}:
+        The cache is used for both instructions and data.
+        Instructions and data are automatically balanced.
+        Has contention problem on parallel and pipeline execution that imposes
+        bottleneck on performance.
+\end{enumerate}
