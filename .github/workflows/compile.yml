@@ -151,7 +151,7 @@ jobs:
           uses: actions/upload-artifact@v4
           with:
             name: pdf-miktex-${{ matrix.target }}
-            path: ${{ env.OUTPUT_FILE }}
+            path: ${{ matrix.target}}/${{ env.OUTPUT_FILE }}
             retention-days: 1
         ## Upload logs
         - name: Upload compile logs
