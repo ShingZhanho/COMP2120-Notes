@@ -31,3 +31,50 @@ Add/Sub directly.\\
     \item for sign bit, if 1, negate multiplicand, left shift, sign extend, add to partial sum,
     \item return sum.
 \end{enumerate*}
+
+\subsection*{Excess-$K$}
+Values range: $[0-K, 2^n-1-K]$\\
+$K$ is typically chosen to be $2^{n-1} - 1$.
+
+\subsection*{Floating Point Numbers}
+$\pm\text{Significand}\times2^{\pm\text{(Biased) Exponent}}$\\
+\emph{Single}: 32 bits, 8 exp, 23 sig.\\
+\emph{Double}: 64 bits, 11 exp, 52 sig.\\
+\emph{Extended}: 80 bits, 15 exp, 112 sig.
+
+\subsubsection*{Special Values (used only when specified)}
+\emph{0}: exp = 0, sig = 0.\\
+\emph{Subnormalized}: exp = 0, sig $\neq$ 0.\\
+\emph{$\infty$}: exp = all 1, sig = 0.\\
+\emph{NaN}: exp = all 1, sig $\neq$ 0.
+
+\subsubsection*{Properties}
+\# of representable numbers same as int.\\
+Not uniformly distributed.\\
+Arithmetic laws not always hold.
+
+\subsection*{Floating Point Arithmetics}
+
+\subsubsection*{Add/Sub}
+\begin{enumerate*}[label=(\arabic*)]
+    \item Check 0.
+    \item Align significand (smaller exp shift right).
+    \item Add/Sub significands.
+    \item Normalise.
+    \item Round.
+\end{enumerate*}
+
+\subsubsection*{Multiplication/Division}
+\begin{enumerate*}[label=(\arabic*)]
+    \item Check 0.
+    \item Multiply/Divide significands.
+    \item Multiplication: add exponents, sub $K$; Division: sub exponents, add $K$.
+    \item Determine sign.
+    \item Normalise.
+    \item Round.
+\end{enumerate*}
+
+\subsubsection*{Rounding Methods}
+Round to nearest even.\\
+Round towards zero.\\
+Round towards $\pm\infty$.

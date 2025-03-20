@@ -25,7 +25,7 @@ These revision notes are constructed for the course COMP2120 - Computer Organisa
 of The University of Hong Kong during 2024/25 2nd semester for **personal** use only.
 
 The notes are based on the lecture slides and most of the figures were taken from the
-textbook Computer Organization and Architecture, 11th edition (10th) by William Stallings.
+textbook Computer Organization and Architecture, 11th edition by William Stallings.
 The author does not own any of the figures and the author(s) of the textbook shall
 retain all rights to the figures.
 
