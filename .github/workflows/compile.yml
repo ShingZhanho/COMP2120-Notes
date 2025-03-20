@@ -11,42 +11,42 @@ on:
             - master
 
 jobs:
-    compile:
-      name: Compile LaTeX notes
-      runs-on: ubuntu-latest
-      if: ${{ contains(github.event.head_commit.message, '@docker') }}
-      steps:
-          - name: Checkout repository
-            uses: actions/checkout@v4
+    # compile:
+    #   name: Compile LaTeX notes
+    #   runs-on: ubuntu-latest
+    #   if: ${{ contains(github.event.head_commit.message, '@docker') }}
+    #   steps:
+    #       - name: Checkout repository
+    #         uses: actions/checkout@v4
 
-          - name: Set up Python
-            uses: actions/setup-python@v5
-            with:
-                python-version: 3.8
+    #       - name: Set up Python
+    #         uses: actions/setup-python@v5
+    #         with:
+    #             python-version: 3.8
 
-          - name: Install dependencies
-            run: |
-                python -m pip install --upgrade pip
-                pip install -r build/requirements.txt
+    #       - name: Install dependencies
+    #         run: |
+    #             python -m pip install --upgrade pip
+    #             pip install -r build/requirements.txt
 
-          - name: Include disclaimer header
-            run: |
-                chmod +x ./build/add-disclaimer.sh
-                ./build/add-disclaimer.sh
+    #       - name: Include disclaimer header
+    #         run: |
+    #             chmod +x ./build/add-disclaimer.sh
+    #             ./build/add-disclaimer.sh
 
-          - name: Set up LaTeX docker and compile
-            uses: xu-cheng/latex-action@v3
-            with:
-              root_file: COMP2120-Notes.tex
-              work_in_root_file_dir: true
-              latexmk_shell_escape: true
+    #       - name: Set up LaTeX docker and compile
+    #         uses: xu-cheng/latex-action@v3
+    #         with:
+    #           root_file: COMP2120-Notes.tex
+    #           work_in_root_file_dir: true
+    #           latexmk_shell_escape: true
 
-          - name: Upload artifact
-            uses: actions/upload-artifact@v4
-            with:
-              name: notes
-              path: COMP2120-Notes.pdf
-              retention-days: 1
+    #       - name: Upload artifact
+    #         uses: actions/upload-artifact@v4
+    #         with:
+    #           name: notes
+    #           path: COMP2120-Notes.pdf
+    #           retention-days: 1
 
     deploy:
       name: Build and deploy static site
@@ -63,7 +63,7 @@ jobs:
           - name: Download artifact
             uses: actions/download-artifact@v4
             with:
-              name: notes-miktex
+              pattern: pdf-miktex-*
               path: gh-pages
               merge-multiple: true
 
@@ -84,6 +84,11 @@ jobs:
       runs-on: ubuntu-22.04
       env:
         APT_LIST: "" ## Evaluated at runtime
+        ROOT_FILE: ""
+        OUTPUT_FILE: ""
+      strategy:
+        matrix:
+          target: [notes, cheatsheet]
       steps:
         - name: Checkout repository
           uses: actions/checkout@v4
@@ -118,7 +123,7 @@ jobs:
         - name: Cache LaTeX packages
           uses: actions/cache@v4
           with:
-            key: miktex-pkg-${{ runner.os }}-${{ hashFiles('packages.tex', 'cheatsheet/packages.tex') }}
+            key: miktex-pkg-${{ runner.os }}-${{ hashFiles(format('./{0}/packages.tex', matrix.target)) }}
             path: ~/.miktex
         ## Finish MiKTeX setup
         - name: Finish MiKTeX setup
@@ -132,22 +137,21 @@ jobs:
         - name: Fix PATH
           run: echo "PATH=$HOME/bin:$PATH" >> "$GITHUB_ENV"
         ## Compile the document
-        - name: Compile LaTeX notes
+        - name: Get root file
+          run: echo "ROOT_FILE=$(ls ${{ matrix.target }} | grep -E "COMP2120-.*\.tex" >> "$GITHUB_ENV"
+        - name: Compile target - ${{ matrix.target }}
           id: compile
-          run: latexmk -shell-escape -interaction=nonstopmode -pdf -outdir=. -f COMP2120-Notes.tex
-        - name: Compile LaTeX cheatsheet
-          id: compile-cheatsheet
           run: |
-            latexmk -shell-escape -interaction=nonstopmode -pdf -outdir=./cheatsheet -f ./cheatsheet/COMP2120-Cheatsheet.tex
-            mv ./cheatsheet/COMP2120-Cheatsheet.pdf .
+            latexmk -shell-escape -interaction=nonstopmode -pdf -cd -outdir=./notes -f ./notes/COMP2120-Notes.tex
+            mv ./${{ matrix.target }}/${{ env.ROOT_FILE }} .
         ## Upload the artifact
+        - name: Find output file
+          run: echo "OUTPUT_FILE=$(ls ${{ matrix.target }} | grep -E "COMP2120-.*\.pdf" >> "$GITHUB_ENV"
         - name: Upload artifact
           uses: actions/upload-artifact@v4
           with:
-            name: notes-miktex
-            path: |
-              COMP2120-Notes.pdf
-              COMP2120-Cheatsheet.pdf
+            name: pdf-miktex-${{ matrix.target }}
+            path: ${{ env.OUTPUT_FILE }}
             retention-days: 1
         ## Upload logs
         - name: Upload compile logs
