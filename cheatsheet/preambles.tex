@@ -25,13 +25,13 @@ linecolor=gray,linewidth=1pt,%
 leftmargin=0mm,rightmargin=0mm,skipbelow=0mm,skipabove=0mm,
 }
 
-\renewcommand{\emph}[1]{\textbf{\textit{\textcolor{myblue}{#1}}}}
+\renewcommand{\emph}[1]{\textbf{\sffamily\textcolor{myblue}{#1}}}
 
 \makeatletter % Author: https://tex.stackexchange.com/questions/218587/how-to-set-one-header-for-each-page-using-multicols
 \renewcommand{\section}{\@startsection{section}{1}{0mm}%
                                 {.2ex}%
                                 {.2ex}%x
-                                {\color{myblue}\sffamily\small\bfseries}}
+                                {\color{myblue}\sffamily\normalsize\bfseries}}
 \renewcommand{\subsection}{\@startsection{subsection}{1}{0mm}%
                                 {.2ex}%
                                 {.2ex}%x
@@ -40,6 +40,8 @@ leftmargin=0mm,rightmargin=0mm,skipbelow=0mm,skipabove=0mm,
                                 {.2ex}
                                 {.2ex}
                                 {\sffamily\bfseries\footnotesize}}
+
+\newenvironment{enuminline}{\begin{enumerate*}[label=(\arabic*)]}{\end{enumerate*}}
 
 
 

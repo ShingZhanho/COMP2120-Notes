@@ -1,0 +1,94 @@
+\section{Memory}
+\emph{Memory Hierarchy}: Inbound (Registers, on-chip cache, cache, main mem)
+$\rightarrow$ Outbound (disk, SSD, DVD)
+$\rightarrow$ Off-line (magnetic tape)\\
+\emph{Trends (top to bottom)}: Capacity $\uparrow$; Cost per bit $\downarrow$;
+Access time $\uparrow$; Frequency of access $\downarrow$.\\
+\emph{Principle of Locality}:
+\textbf{Temporal} (recently accessed likely to be accessed again, e.g. \texttt{sum}) and
+\textbf{Spatial} (items with nearby addresses likely to be accessed soon, e.g. \texttt{arr[]}).\\
+\emph{Memory Organisation}:
+\textbf{Big Endian} (left-to-right) and \textbf{Little Endian} (right-to-left).\\
+\emph{Access Modes}: Sequential, Random, Associative.
+
+\subsection*{Internal Memory}
+\emph{ROM}: Read-only; Non-volatile; Written by masks; No erasure.\\
+\emph{PROM}: Read-only; Non-volatile; Written electrically; No erasure.\\
+\emph{EPROM}: Read-mostly; Non-volatile; Written electrically; Erased by UV light.\\
+\emph{EEPROM}: Read-mostly; Non-volatile; Written electrically; Erased electrically (byte-wise).\\
+\emph{Flash}: Read-mostly; Non-volatile; Written electrically; Erased electrically (block-wise); limited write cycles.\\
+\emph{DRAM}: Read-write; Volatile; Use transistors; Refresh needed; Slow; Cheaper.\\
+\emph{SRAM}: Read-write; Volatile; Use logic gates; No refresh; Fast; Expensive.
+
+\subsection*{Bench-marking Memory Performance}
+\emph{Access Time}: Time to read/write data.\\
+\emph{Bandwidth/Transfer Rate}: Rate at which data can be read/written.\\
+\emph{Memory Cycle Time}: Access time $+$ Transfer time.
+
+\subsection*{Cache Memory}
+A unit-addressable main memory with $n$-bit addresses, a block size of $2^k$ units, has $M=2^{n-k}$ blocks.
+The cache has $m$ blocks (lines), $m \ll M$.
+
+\subsubsection*{Address Mapping}
+
+\emph{Direct Mapping}: 1-to-1 mapping.\\
+$\text{(Cache line)} = \text{(Main mem block)}\,\%\,m$.\\
+\textbf{Fields}: Tag (remaining bits), Line ($r$ bits, corresponds to $2^r$ lines), Offset ($k$ bits, corresponds to line size $2^k$ addressable units)\\
+\textbf{Pros}:
+\begin{enuminline}
+    \item Simple circuitry.
+    \item Fast.
+\end{enuminline}\\
+\textbf{Cons}:
+\begin{enuminline}
+    \item High miss rate.
+\end{enuminline}
+
+\emph{Fully Associative}: 1-to-all mapping.\\
+\textbf{Fields}: Tag (remaining bits), Offset ($k$ bits, corresponds to line size $2^k$ addressable units)\\
+\textbf{Pros}:
+\begin{enuminline}
+    \item Low miss rate.
+    \item Flexible use of cache.
+\end{enuminline}\\
+\textbf{Cons}:
+\begin{enuminline}
+    \item Need to search all lines.
+    \item Complex circuitry.
+\end{enuminline}
+
+\emph{Set Associative}: 1-to-some mapping.\\
+$m \, (\#\text{ of lines}) = v \text{ sets} \times k \text{ lines/set}$.\\
+$i \, (\text{Set \#}) = j \, (\text{Main mem block}) \, \%\, v$.\\
+\textbf{Implementation}:
+\begin{enuminline}
+    \item $v$ associative caches. (high associativity)
+    \item $k$ direct cache. ($k$-way set associative, low associativity)
+\end{enuminline}\\
+\textbf{Fields}: Tag (remaining bits), Set ($s$ bits, corresponds to $v=2^s$ sets), Offset ($k$ bits, corresponds to line size $2^k$ addressable units)\\
+\textbf{Pros}:
+\begin{enuminline}
+    \item Low miss rate.
+\end{enuminline}\\
+\textbf{Cons}:
+\begin{enuminline}
+    \item Complex circuitry.
+\end{enuminline}
+
+\subsubsection*{Replacement Algorithms}
+\emph{Random}: Randomly choose a line to replace. (Not used)\\
+\emph{FIFO}: Replace the line that has been in the cache the longest.\\
+\emph{LRU}: Replace the line that has been least recently used.\\
+\emph{LFU}: Replace the line that has been least frequently used.\\
+\textit{Not applicable to direct mapping}.
+
+\subsubsection*{Write Policies}
+\emph{Write-through}: Write every time cache is changed.\\
+\emph{Write-back}: Write only when line is replaced.
+
+\subsubsection*{Performance}
+\emph{Average Access Time} $= \text{Hit time} + \text{Miss rate} \times \text{Miss penalty}$.
+
+\subsubsection*{Unified/Split Cache}
+\emph{Unified}: Instructions and data share the same cache. Auto balanced. Memory contention problem on pipeline and parallel executions, causes bottoleneck.\\
+\emph{Split}: Instructions and data have fixed-size separate caches. Better performance. Main trend.
