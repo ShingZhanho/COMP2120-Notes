@@ -171,7 +171,8 @@ If the operands are in registers, data are moved from registers to ALU.
 
 If the operands are in memory, then the instruction would be a two-word instruction.
 Note that if PC points to the second word of a two-word instruction, after the above process,
-MBR will contain the \textbf{address} of the second word, not the content. Therefore, another
+MBR will contain an \textbf{address} at which data of the operand is stored,
+not the content. Therefore, another
 memory read is needed to fetch the content, by:
 \begin{align*}
     \text{MAR} &\leftarrow \text{MBR} \\
