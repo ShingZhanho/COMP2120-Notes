@@ -91,7 +91,29 @@ to have errors.)
 Common error detection and correction methods include:
 \begin{itemize}
     \item \textbf{Parity Bit}: Extra bit added to data to make number of 1s even/odd.
-        (Cannot be used to correct errors. Cannot detect 2$n$-bit errors.)
+        (Cannot be used to correct errors when the location of the error is unknown.
+        Cannot detect 2$n$-bit errors.)
+        \begin{definition}[Even Parity Bit]\label{def:even-parity-bit}
+            Suppose there are a series of bits ($b_1b_2b_3\cdots b_{n-1}$), then the even
+            parity bit $b_n$ is given by:
+            \begin{equation*}
+                b_n = b_1 \oplus b_2 \oplus b_3 \oplus \cdots \oplus b_{n-1}
+            \end{equation*}
+        \end{definition}
+        \begin{theorem}[Error Correction by Parity Bits]
+            Parity Bits can be used to recover errors iff the number of errors is one
+            and the location of the error is known.
+            \begin{example} \label{ex:parity-bit-error-correction}
+                Suppose we have a bit pattern $b_1b_2b_3p$, where $p$ is the parity bit.
+                By Definition \ref{def:even-parity-bit}, we have \[p = b_1 \oplus b_2 \oplus b_3\]
+                Given that $b_2$ is lost, we can recover $b_2$ by applying $\oplus b_2 \oplus p$ on
+                both sides of the equation, then we have:
+                \begin{align*}
+                    p\oplus b_2 \oplus p &= b_1 \oplus b_2 \oplus b_3 \oplus b_2 \oplus p \\
+                    b_2 &= \boxed{b_1 \oplus b_3 \oplus p}
+                \end{align*}
+            \end{example}       
+        \end{theorem}
     \item \textbf{Hamming Code}
     \item \textbf{Repetition Code}
 \end{itemize}
