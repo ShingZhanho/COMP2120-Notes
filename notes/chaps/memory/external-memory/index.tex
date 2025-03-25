@@ -195,3 +195,116 @@ are useful for the disk controller. The example of a track format can be:
     \item Parity distributed across different disks, require 2 extra disks.
     \item Can endure two disk failures.
 \end{itemize}
+
+\emph{Comparison of RAID Levels}
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|r|*{2}{>{\RaggedRight\arraybackslash}X|}}
+        \hline
+        \multicolumn{1}{|c|}{\textbf{Level}} & \multicolumn{1}{c|}{\textbf{Advantages}} & \multicolumn{1}{c|}{\textbf{Disadvantages}} \\
+        \hline
+
+        0 &
+
+        % RAID 0 - Advantages
+        I/O performance greatly improved by spreading data across disks. \par
+        No parity calculation overhead. \par
+        Very simple design \& easy to implement.
+        
+        &
+
+        % RAID 0 - Disadvantages
+        One drive failure will result in data in one array to be lost.
+        
+        \\ \hline
+
+        1 &
+
+        % RAID 1 - Advantages
+        100\% redundancy, no rebuild necessary when disk fails. \par
+        May sustain multiple simultaneous drive failures. \par
+        Simplest RAID storage subsystem design.
+        
+        &
+
+        % RAID 1 - Disadvantages
+        Highest (100\%) disk overhead of all RAID types.
+        
+        \\ \hline
+
+        2 &
+
+        % RAID 2 - Advantages
+        High data transfer rate. \par
+        The higher transfer rate required, the better data disk to ECC disk ratio. \par
+        Relatively simpler controller design than RAID 3-5.
+        
+        &
+
+        % RAID 2 - Disadvantages
+        Expensive. \par
+        Very high data disk to ECC disk ratio with smaller word sizes.
+        
+        \\ \hline
+
+        3 &
+
+        % RAID 3 - Advantages
+        Very high read/write data transfer rate. \par
+        Disk failure has insignificant impact on throughput. \par
+        Low ECC to data disk ratio, higher efficiency.
+
+        &
+
+        % RAID 3 - Disadvantages
+        Controller design is faily complex.
+        
+        \\ \hline
+
+        4 &
+
+        % RAID 4 - Advantages
+        Very high read data transfer rate. \par
+        Low ECC to data disk ratio, higher efficiency.
+
+        &
+
+        % RAID 4 - Disadvantages
+        Quite complex controller design. \par
+        Worst write transaction rate and Write aggregate transfer rate. \par
+        Difficult and inefficient data rebuild after disk failure.
+
+        \\ \hline
+
+        5 &
+
+        % RAID 5 - Advantages
+        Highest Read data transaction rate. \par
+        Low ECC to data disk ratio, higher efficiency. \par
+        Good aggregate transfer rate.
+
+        &
+
+        % RAID 5 - Disadvantages
+        Most complex controller design. \par
+        Difficult to rebuild data after disk failure as compared to RAID 1.
+
+        \\ \hline
+
+        6 &
+
+        % RAID 6 - Advantages
+        Provides highest data fault tolerance. \par
+        Can sustain multiple simultaneous drive failures.
+
+        &
+
+        % RAID 6 - Disadvantages
+        More complex controller design than RAID 5. \par
+        Controller overhead to compute parity is extremely high.
+
+        \\ \hline
+        
+    \end{tabularx}
+\end{table}
