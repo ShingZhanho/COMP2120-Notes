@@ -91,3 +91,107 @@ are useful for the disk controller. The example of a track format can be:
 \end{itemize}
 
 \subsubsection{Redundant Array of Independent Disks (RAID)}
+
+\emph{Characteristics of RAID}
+
+\begin{itemize}
+    \item Several disk drives are arranged together and appear as one single disk to the operating
+        system (a \textbf{logical disk}).
+    \item Files are distributed in \textbf{strips} across the disks.
+    \item Strips can be in physical blocks, sectors, or other units.
+    \item RAID allows parallel operation.
+    \item Redundant capacity stores parity information which guarantees 24/7 operation.
+    \item Several levels, from RAID 0 to RAID 6.
+\end{itemize}
+
+\emph{RAID 0}
+
+\begin{itemize}
+    \item Not a true RAID level. Non-redundant (no parity).
+    \item Data is written in consecutive sectors in a round-robin fashion.
+    \item Efficient for accessing a block of data.
+    \item One disk failure will cause all strips to be lost without recovery.
+\end{itemize}
+
+\emph{RAID 1}
+
+\begin{itemize}
+    \item Duplicate the disk as a backup (mirroring).
+    \item Fault tolerant, can recover from multi-disk failure as long as one copy still exists.
+    \item During read, either copy can be used, hence reduce seek time.
+    \item One logical write requires two physical writes, reduces write performance.
+\end{itemize}
+
+\emph{RAID 2}
+
+\begin{itemize}
+    \item Uses extra disks to store Error Correction Codes (Hamming codes), which is
+        very expensive.
+    \item Number of redundant disks $\approx \log_2 (\text{number of data disks})$.
+    \item No commercial usage.
+    \item Potential advantage: (when strip size is small) efficient for parallel read.
+    \item Universally controlled spindles (all read/write heads move in parallel without
+        individual control).
+\end{itemize}
+
+\emph{RAID 3} {\normalfont\large (Bit-interleaved Parity)}
+
+\zexternaldocument{chaps/memory/internal-memory/index} % For referencing parity bit
+
+\begin{itemize}
+    \item One extra disk is used to store parity bit of the data disks.
+    \item Can recover from one disk failure. Refer to Example \ref{ex:parity-bit-error-correction}
+        for how parity bit can be used to recover data.
+    \item Writing is also possible with one disk failure, use the above method to alter the
+        parity bit.
+    \item Error correction principle applies from RAID 3 to RAID 6.
+\end{itemize}
+
+\emph{RAID 4} {\normalfont\large (Block-level Parity)}
+
+\begin{itemize}
+    \item Similar to RAID 3, but parity is calculated on a block basis.
+    \item Write to any block would result in the need of recauculating the parity block.
+        Write penalty: 2 reads, 2 writes.
+    \item Methods of writing: \begin{enumerate*}[label=(\arabic*)]
+        \item Write data, recalculate parity, write parity; or
+        \item Write data, compare old data with new data, add the difference to parity.
+    \end{enumerate*}
+    \item Individual spindle control.
+    \item No commercial usage.
+\end{itemize}
+
+\emph{RAID 5} {\normalfont\large (Block-level Distributed Parity)}
+
+\begin{itemize}
+    \item Difference from RAID 4: Parity is distributed across all disks.
+    \item Difference from RAID 3: Parity is calculated on a block basis.
+    \item Can endure one disk failure.
+    \item Commonly used in Network Attached Storage (NAS).
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \hfill
+    \begin{subfigure}{0.4\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{chaps/memory/external-memory/raid-level-5.png}
+        \caption{RAID Level 5}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{chaps/memory/external-memory/raid-level-6.png}
+        \caption{RAID Level 6}
+    \end{subfigure}
+    \hfill
+    \caption{Comparison between RAID 5 and RAID 6}
+\end{figure}
+
+\emph{RAID 6} {\normalfont\large (Dual Redundancy)}
+
+\begin{itemize}
+    \item Similar to RAID 5, but uses two strips for parity, calculated by different methods.
+    \item Parity distributed across different disks, require 2 extra disks.
+    \item Can endure two disk failures.
+\end{itemize}

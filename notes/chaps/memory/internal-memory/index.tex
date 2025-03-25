@@ -104,6 +104,10 @@ Common error detection and correction methods include:
             Parity Bits can be used to recover errors iff the number of errors is one
             and the location of the error is known.
             \begin{example} \label{ex:parity-bit-error-correction}
+\makeatletter
+                {\normalfont\sffamily\bfseries\topsep6\p@\@plus6\p@\relax [\ref*{ex:parity-bit-error-correction}]}
+\makeatother
+
                 Suppose we have a bit pattern $b_1b_2b_3p$, where $p$ is the parity bit.
                 By Definition \ref{def:even-parity-bit}, we have \[p = b_1 \oplus b_2 \oplus b_3\]
                 Given that $b_2$ is lost, we can recover $b_2$ by applying $\oplus b_2 \oplus p$ on
