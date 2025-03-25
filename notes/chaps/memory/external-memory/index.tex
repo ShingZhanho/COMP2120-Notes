@@ -8,7 +8,7 @@
     \caption{Disk Data Layout}
 \end{figure}
 
-\textbf{Terminologies about the HDD layout and components}:
+\emph{Terminologies about the HDD layout and components}
 \begin{itemize}
     \item \textbf{Platter}: Magnetically coated disks.
     \item \textbf{Track}: Concentric rings on a platter.
@@ -17,7 +17,9 @@
         at the same time.
 \end{itemize}
 
-\textbf{Formats of Tracks} -- Tracks contain sectors that hold data and other bits that
+\emph{Formats of Tracks}
+
+Tracks contain sectors that hold data and other bits that
 are useful for the disk controller. The example of a track format can be:
 \begin{itemize}
     \item Each track contains 30 sectors of fixed-length 600 bytes, with 512 bytes for data
@@ -33,6 +35,7 @@ are useful for the disk controller. The example of a track format can be:
     \end{itemize}
 \end{itemize}
 
+{% wrapfigure begins
 \begin{wrapfigure}{l}{0.6\textwidth}
     \centering
     \begin{subfigure}{0.28\textwidth}
@@ -49,7 +52,7 @@ are useful for the disk controller. The example of a track format can be:
     \caption{Disk Layout Methods}
 \end{wrapfigure}
 
-\textbf{Disk Layout Methods}:
+\emph{Disk Layout Methods}
 \begin{itemize}
     \item \textbf{Constant Angular Velocity (CAV)}: Blocks of data can be directly addressed
         by track and sector. Read/write is easy. However, density of data decreases from the
@@ -59,3 +62,32 @@ are useful for the disk controller. The example of a track format can be:
         exactly the same, but only approximated to be the same. This allows maximised storage
         capacity.
 \end{itemize}
+}% wrapfigure ends
+
+\pagebreak
+
+\emph{Disk Access Time}
+
+\begin{itemize}
+    \item \textbf{Seek TIme}: Move the read/write head from one cylinder to another.
+        Depends on start and destination. Typical values: 5 - 15 ms (start up), 0.2 - 1 ms
+        (consecutive tracks).
+    \item \textbf{Rotational Latency}: Time for the required sector to rotate under the head.
+        Average latency is the time for half a revolution.
+        \begin{example}
+            For a disk rotating at 7200 RPM, the average latency is given by: \[
+                \frac{1}{7200 \text{ rotation minute}^{-1}}
+                \times \frac{60\text{ s}}{1\text{ minute}}
+                \times 1000 \text{ ms s}^{-1}
+                \times \frac{1}{2} \text{ rotation} = \boxed{4.17 \text{ ms}}
+            \]
+        \end{example}
+    \item \textbf{Data Transfer Time} ($t_T$): Typically, $t_T \ll \text{seek} + \text{latency}$.
+        \[
+            t_T = \frac{b}{N} \times \frac{1}{r} 
+        \]
+        where $b$ is bytes to be transfered, $N$ is bytes per track, and $r$ is the rotation
+        speed in rps.
+\end{itemize}
+
+\subsubsection{Redundant Array of Independent Disks (RAID)}
