@@ -35,22 +35,21 @@ are useful for the disk controller. The example of a track format can be:
     \end{itemize}
 \end{itemize}
 
-{% wrapfigure begins
-\begin{wrapfigure}{l}{0.6\textwidth}
+\begin{figure}[H]
     \centering
     \begin{subfigure}{0.28\textwidth}
         \centering
         \includegraphics[width=\textwidth]{chaps/memory/external-memory/disk-layout-cav.png}
         \caption{CAV}
     \end{subfigure}
-    \hfill
+    \hspace{0.1\textwidth}
     \begin{subfigure}{0.28\textwidth}
         \centering
         \includegraphics[width=\textwidth]{chaps/memory/external-memory/disk-layout-mzr.png}
         \caption{MZR}
     \end{subfigure}
     \caption{Disk Layout Methods}
-\end{wrapfigure}
+\end{figure}
 
 \emph{Disk Layout Methods}
 \begin{itemize}
@@ -62,14 +61,11 @@ are useful for the disk controller. The example of a track format can be:
         exactly the same, but only approximated to be the same. This allows maximised storage
         capacity.
 \end{itemize}
-}% wrapfigure ends
-
-\pagebreak
 
 \emph{Disk Access Time}
 
 \begin{itemize}
-    \item \textbf{Seek TIme}: Move the read/write head from one cylinder to another.
+    \item \textbf{Seek Time}: Move the read/write head from one cylinder to another.
         Depends on start and destination. Typical values: 5 - 15 ms (start up), 0.2 - 1 ms
         (consecutive tracks).
     \item \textbf{Rotational Latency}: Time for the required sector to rotate under the head.
@@ -104,19 +100,17 @@ are useful for the disk controller. The example of a track format can be:
     \item Several levels, from RAID 0 to RAID 6.
 \end{itemize}
 
-\emph{RAID 0}
+\emph{RAID 0} {\normalfont\large (Non-redundant)}
 
 \begin{itemize}
-    \item Not a true RAID level. Non-redundant (no parity).
     \item Data is written in consecutive sectors in a round-robin fashion.
     \item Efficient for accessing a block of data.
     \item One disk failure will cause all strips to be lost without recovery.
 \end{itemize}
 
-\emph{RAID 1}
+\emph{RAID 1} {\normalfont\large (Mirroring)}
 
 \begin{itemize}
-    \item Duplicate the disk as a backup (mirroring).
     \item Fault tolerant, can recover from multi-disk failure as long as one copy still exists.
     \item During read, either copy can be used, hence reduce seek time.
     \item One logical write requires two physical writes, reduces write performance.
@@ -164,6 +158,7 @@ are useful for the disk controller. The example of a track format can be:
 \emph{RAID 5} {\normalfont\large (Block-level Distributed Parity)}
 
 \begin{itemize}
+    \item Uses $(n-1)$ disks to store data.
     \item Difference from RAID 4: Parity is distributed across all disks.
     \item Difference from RAID 3: Parity is calculated on a block basis.
     \item Can endure one disk failure.
@@ -191,10 +186,13 @@ are useful for the disk controller. The example of a track format can be:
 \emph{RAID 6} {\normalfont\large (Dual Redundancy)}
 
 \begin{itemize}
+    \item Uses $(n-2)$ disks to store data.
     \item Similar to RAID 5, but uses two strips for parity, calculated by different methods.
     \item Parity distributed across different disks, require 2 extra disks.
     \item Can endure two disk failures.
 \end{itemize}
+
+\pagebreak
 
 \emph{Comparison of RAID Levels}
 
