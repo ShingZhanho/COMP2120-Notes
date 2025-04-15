@@ -92,13 +92,13 @@ memory address \texttt{P1} to register \texttt{R1}, the instruction is represent
     \centering
     \begin{tabular}{ccccclll}
     Byte 0                       & Byte 1                                     & Byte 2                                      & Byte 3                                   & Byte 4    & Byte 5    & Byte 6    & Byte 7   \\ \hline
-    \multicolumn{1}{|c|}{Opcode (\texttt{LOAD})} & \multicolumn{1}{c|}{Source (\texttt{0x00})} & \multicolumn{1}{c|}{Addressing Model (\texttt{0xff})} & \multicolumn{1}{c|}{Destination} & \multicolumn{4}{c|}{Memory Address} \\ \hline
+    \multicolumn{1}{|c|}{Opcode (\texttt{LOAD})} & \multicolumn{1}{c|}{Source (\texttt{0x00})} & \multicolumn{1}{c|}{Addressing Mode (\texttt{0xff})} & \multicolumn{1}{c|}{Destination} & \multicolumn{4}{c|}{Memory Address} \\ \hline
     \multicolumn{4}{c}{Word 0}                                                                                                                                         & \multicolumn{4}{c}{Word 1}                  
     \end{tabular}
 \end{table}
 
 \begin{remark}
-    For simplicity, there is only one addressing model (\texttt{0xff}) used in this section.
+    For simplicity, there is only one addressing mode (\texttt{0xff}) used in this section.
 \end{remark}
 
 \item \textbf{Branching Instructions}:
@@ -108,7 +108,7 @@ A branching instruction has the following format:
     \centering
     \begin{tabular}{ccccclll}
     Byte 0                                & Byte 1                              & Byte 2                                         & Byte 3                          & Byte 4     & Byte 5     & Byte 6     & Byte 7    \\ \hline
-    \multicolumn{1}{|c|}{Opcode (Branch)} & \multicolumn{1}{c|}{Condition Code} & \multicolumn{1}{c|}{Address/Addressing Model} & \multicolumn{1}{c|}{(not used)} & \multicolumn{4}{c|}{Address of Destination Instruction} \\ \hline
+    \multicolumn{1}{|c|}{Opcode (Branch)} & \multicolumn{1}{c|}{Condition Code} & \multicolumn{1}{c|}{Address/Addressing Mode} & \multicolumn{1}{c|}{(not used)} & \multicolumn{4}{c|}{Address of Destination Instruction} \\ \hline
     \multicolumn{4}{c}{Word 0}                                                                                                                                     & \multicolumn{4}{c}{Word 1}                      
     \end{tabular}
 \end{table}

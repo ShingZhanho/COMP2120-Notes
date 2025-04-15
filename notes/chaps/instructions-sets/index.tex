@@ -1,0 +1,16 @@
+\section{Instruction Sets}
+
+\subsection{More on Instruction Format}
+
+\subsubsection{Arithmetic \& Logical Instructions}
+
+\textbf{Arithmetic} operations treat operands as numbers and have to consider the sign
+of the operands. Arithmetic shifts are equivalent to multiplication (left shift) or
+division (right shift) by 2 with remainders shifted out. The new bits are filled with
+sign bits on the left, and 0's on the right.
+
+\textbf{Logical} operations treat operands as bit patterns. Logical shifts simply discard
+the bits shifted out and replenish the new bits with 0's.
+
+There are also \textbf{rotate} operations, which put the bits shifted out back into the
+other end of the number.
