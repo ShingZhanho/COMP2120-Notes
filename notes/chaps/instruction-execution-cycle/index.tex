@@ -56,6 +56,19 @@ format of:
 where opcode stands for operation code, for example, \texttt{ADD (0x00)}, \texttt{SUB (0x01)},
 \texttt{AND (0x02)}, \texttt{OR (0x03)}, \texttt{NOT (0x04)} etc.
 
+\zexternaldocument{chaps/input-output/index} % for referencing I/O instructions
+
+\textbf{Types of Operations}: \begin{enumerate*}[label=\textbf{(\arabic*)}]
+    \item Data transfer (e.g. \texttt{MOV}, \texttt{LD}, \texttt{ST});
+    \item Arithemtic (e.g. \texttt{ADD}, \texttt{SUB});
+    \item Logical (e.g. \texttt{AND}, \texttt{OR}, \texttt{NOT});
+    \item Transfer of control (e.g. \texttt{BR}, \texttt{CALL});
+    \item Input/Output (see \hyperref[lbl:port-mapped-io]{Port-mapped I/O} in Section \ref{sec:input-output});
+    \item Data conversion (e.g. \texttt{NEG} - negate, \texttt{SXT} - sign extend).
+\end{enumerate*}
+
+\textbf{Logical Operations vs Arithmetic Operations}:
+
 \begin{enumerate}
 
 \item \textbf{Arithmetic and Logical Operations}:
