@@ -83,3 +83,21 @@ For ARM architecture, it supports datatypes of \begin{enumerate*}[label=\textbf{
 It only provides unsigned integers, nonnegative integers, and two's complement integers. 
 The ARM architecture does not provide floating point hardware and they must be emulated in
 software.
+
+\subsection{Addressing Modes}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{chaps/instructions-sets/addressing-modes.png}
+    \caption{Addressing Modes}
+\end{figure}
+
+\begin{remark}
+    Notations used in this section:
+    \texttt{A} = contents of an address (operand) field of an instruction;
+    \texttt{R} = contents of an address field that refers to a register;
+    \texttt{EA} = effective address (actual address) of the location where the referenced operand is stored;
+    \texttt{(X)} = contents of memory location or register \texttt{X}.
+
+    (The parenthesis notation is similar to a dereference operator of a pointer in C/C++.)
+\end{remark}
