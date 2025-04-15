@@ -1,6 +1,7 @@
 \section{Instruction Sets}
 
 \subsection{More on Instruction Format}
+\label{sec:instruction-format-extended}
 
 \subsubsection{Arithmetic \& Logical Instructions}
 
@@ -14,3 +15,71 @@ the bits shifted out and replenish the new bits with 0's.
 
 There are also \textbf{rotate} operations, which put the bits shifted out back into the
 other end of the number.
+
+\subsubsection{Procedures \& Function Calls}
+
+A procedure consists of multiple instructions that are executed in sequence. Within
+a procedure, instructions can be given to execute another procedure. For the CPU
+to know where to go and where to return after the called procedure is done, the
+return addresses need to be stored, which is done by a stack. The latest return
+address will be at the top of the stack, and the CPU will pop it when it reaches
+a return instruction.
+
+\subsubsection{Instruction Operands}
+
+In most applications, instructions either have three, two, one, or zero operands
+(or addresses). Symbolically, they are represented as:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{\# of Operands} & \textbf{Symbolic Representation} & \textbf{Interpretation} \\
+        \hline
+        3 & \texttt{OP A, B, C} & \texttt{A} $\gets$ \texttt{B} OP \texttt{C} \\
+        2 & \texttt{OP A, B} & \texttt{A} $\gets$ \texttt{A} OP \texttt{B} \\
+        1 & \texttt{OP A} & \texttt{AC} $\gets$ \texttt{AC} OP \texttt{A} \\
+        0 & \texttt{OP} & \texttt{T} $\gets$ \texttt{(T-1)} OP \texttt{T} \\
+        \hline
+    \end{tabular}
+\end{table}
+
+{\footnotesize Note: 
+\texttt{AC} = accumulator, \texttt{T} = top of stack, \texttt{(T-1)} = second element of the stack
+}
+
+Instruction operands can either be in main memory or in registers.
+
+\subsubsection{Registers}
+
+\begin{itemize}
+    \item \textbf{General Purpose Registers}: registers that can be used freely;
+    \item \textbf{Dedicated Purpose Registers}: e.g. program counter (PC), instruction register (IR), stack pointer (SP), processor status word (PSW), flag register;
+\end{itemize}
+
+\subsubsection{Data Types}
+
+Two types of data types: \begin{enumerate*}[label=\textbf{(\arabic*)}]
+    \item Numeric (integer, floating point);
+    \item Non-numeric (character, binary data).
+\end{enumerate*}
+The lengths are typically 8, 16, 32, or 64 bits.
+
+For MIPS architecture (a family of reduced instruction set computer (RISC), not ARM or x86),
+have 9 basic data types: \begin{enumerate*}[label=\textbf{(\arabic*)}]
+    \item signed and unsigned bytes;
+    \item signed and unsigned half-words;
+    \item signed and unsigned words;
+    \item double words;
+    \item single-precision floating point (32 bits);
+    \item double-precision floating point (64 bits)
+\end{enumerate*}.
+
+For ARM architecture, it supports datatypes of \begin{enumerate*}[label=\textbf{(\arabic*)}]
+    \item byte (8 bits);
+    \item half-word (16 bits); and
+    \item word (32 bits)
+\end{enumerate*} in length.
+It only provides unsigned integers, nonnegative integers, and two's complement integers. 
+The ARM architecture does not provide floating point hardware and they must be emulated in
+software.
