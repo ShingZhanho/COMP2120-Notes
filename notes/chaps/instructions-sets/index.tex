@@ -101,3 +101,74 @@ software.
 
     (The parenthesis notation is similar to a dereference operator of a pointer in C/C++.)
 \end{remark}
+
+\begin{multicols}{3}
+
+\subsubsection{Immediate}
+
+\begin{itemize}
+    \item \textbf{Notation}: Operand $=$ \texttt{A}
+    \item \textbf{Advantage}: No memory references needed.
+    \item \raggedright\textbf{Disadvantage}: Limited operand magnitude.
+\end{itemize}
+
+\subsubsection{Direct}
+
+\begin{itemize}
+    \item \textbf{Notation}: \texttt{EA} $=$ \texttt{A}
+    \item \textbf{Advantage}: Simple and increased operand magnitude.
+    \item \textbf{Disadvantage}: Limited address space. (Range of memory addresses
+        accessible to the instruction depends on the size of the address field.)
+\end{itemize}
+
+\columnbreak
+
+\subsubsection{Indirect}
+
+\begin{itemize}
+    \item \textbf{Notation}: \texttt{EA} $=$ \texttt{(A)}
+    \item \textbf{Advantage}: Increased address space.
+    \item \textbf{Disadvantage}: Multiple memory references needed.
+\end{itemize}
+
+\subsubsection{Register}
+
+\begin{itemize}
+    \item \textbf{Notation}: \texttt{EA} $=$ \texttt{R}
+    \item Similar to direct addressing, but the operand is in a register.
+    \item \textbf{Advantage}: Fast access to operands.
+    \item \textbf{Disadvantage}: Limited number of registers. (e.g. 32 registers in MIPS)
+\end{itemize}
+
+\columnbreak
+
+\subsubsection{Register Indirect}
+
+\begin{itemize}
+    \item \textbf{Notation}: \texttt{EA} $=$ \texttt{(R)}
+    \item Similar to indirect addressing, but the operand is in a register.
+    \item \textbf{Advantage \& Disadvantage}: Same as indirect addressing.
+\end{itemize}
+
+\subsubsection{Displacement}
+
+\begin{itemize}
+    \item \textbf{Notation}: \texttt{EA} $=$ \texttt{A} $+$ \texttt{(R)}
+    \item \textbf{Usage}: Accessing local variables or parameters in a function call,
+        or accessing an array.
+    \item Registers involved: PC, SP, and base pointer register.
+    \item \textbf{Advantage}: Flexible.
+    \item \textbf{Disadvantage}: Complex.
+\end{itemize}
+
+\end{multicols}
+
+\subsubsection{Stack}
+
+\begin{itemize}
+    \item \textbf{Notation}: \texttt{EA} $=$ Top of Stack
+    \item Uses the stack pointer register (SP). This is implied in the instruction.
+    \item \textbf{Usage}: Mainly for \texttt{PUSH} and \texttt{POP} instructions.
+    \item \textbf{Advantage}: No memory reference.
+    \item \textbf{Disadvantage}: Limited applicability.
+\end{itemize}
