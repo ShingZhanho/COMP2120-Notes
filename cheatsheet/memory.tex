@@ -113,7 +113,29 @@ zones with different \# of sectors, maximise storage capacity, density similar b
 \emph{Data Access Time}: \begin{enuminline}
 \item \textbf{Seek time} - move read/write head to cylinder, distance dependent, 5 - 15 ms startup, 0.2 - 1 ms consecutive;
 \item \textbf{Rotational latency} - average is half a revolution;
-\item \textbf{Transfer time} - 
+\item \textbf{Transfer time} - $t_T\ll \text{seek}+\text{latency}$
 $t_T = \frac{\text{bytes to transfer}}{\text{bytes per track}} \times \frac{1}{\text{rotation speed (rps)}}$
-$t_T\ll \text{seek}+\text{latency}$
 \end{enuminline}
+
+\subsubsection*{Redundant Array of Independent Disks (RAID)}
+
+\emph{0 (non-redundant)}: data stored in round-robin fashion,
+efficient for accessing one block of data, no failure tolerance.\\
+\emph{1 (mirroring)}: multi-disk failure tolerance,
+either copy can be used $\rightarrow$ reduce seek time,
+1 logical write = 2 physical writes.\\
+\emph{2 (hamming code)}: not used, expensive,
+$\text{\# redundant disks} \approx \log_2(\text{\# data disks})$,
+efficient for parallel with small strip size, universally controlled spindles.\\
+\emph{3 (bit-interleaved parity)}: 1 disk for parity, can recover from 1 disk failure
+($p=b_\text{lost}\bxor b_2\bxor b_3 \Leftrightarrow b_\text{lost}=b_2\bxor b_3\bxor p$),
+fast read/write, low ECC:Data ratio.\\
+\emph{4 (block-level parity)}: not used, write penalty = 2 reads + 2 writes,
+methods for writing: \begin{enuminline}
+\item write data, recalculate parity, write parity;
+\item write data, compare old data with new data, add difference to parity;
+\end{enuminline}, individual spindle control, fast read, slow write, low ECC:Data.\\
+\emph{5 (block-level distributed parity)}: 1 disk for parity, parity distributed across all disks,
+can endure 1 disk failure, common for Network Attached Storage, fastest read/write, low ECC:Data\\
+\emph{6 (dual redundancy)}: 2 disks for parity, can endure 2 disk failures,
+use two different parity methods, distributed across all disks.
