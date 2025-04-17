@@ -96,3 +96,24 @@ $i \, (\text{Set \#}) = j \, (\text{Main mem block}) \, \%\, v$.\\
 \subsection*{External Memory}
 
 \subsubsection*{Hard Disk Drive (HDD)}
+
+\emph{Components}: \textbf{Platter} (disk), \textbf{Track} (concentric circle), \textbf{Sector} (segment of track, 512 bytes), \textbf{Cylinder} (set of same tracks vertically).\\
+\emph{Sector Format}: {\footnotesize\itshape e.g.}
+\textbf{Gap 1} (separate sectors) -
+\textbf{ID Field} (synch, track, head, sector \#, CRC) -
+\textbf{Gap 2} (separate ID \& data) -
+\textbf{Data Field} (data, CRC) -
+\textbf{Gap 3}\\
+\emph{Disk Layout Methods}: \begin{enuminline}
+\item \emph{C}onstant \emph{A}ngular \emph{V}elocity -
+easy read/write, density decreases towards the rim, wastes space;
+\item \emph{M}ultiple \emph{Z}one \emph{R}ecording -
+zones with different \# of sectors, maximise storage capacity, density similar but \textbf{NOT} uniform
+\end{enuminline}\\
+\emph{Data Access Time}: \begin{enuminline}
+\item \textbf{Seek time} - move read/write head to cylinder, distance dependent, 5 - 15 ms startup, 0.2 - 1 ms consecutive;
+\item \textbf{Rotational latency} - average is half a revolution;
+\item \textbf{Transfer time} - 
+$t_T = \frac{\text{bytes to transfer}}{\text{bytes per track}} \times \frac{1}{\text{rotation speed (rps)}}$
+$t_T\ll \text{seek}+\text{latency}$
+\end{enuminline}
