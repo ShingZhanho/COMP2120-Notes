@@ -36,10 +36,10 @@ In most applications, instructions either have three, two, one, or zero operands
         \hline
         \textbf{\# of Operands} & \textbf{Symbolic Representation} & \textbf{Interpretation} \\
         \hline
-        3 & \texttt{OP A, B, C} & \texttt{A} $\gets$ \texttt{B} OP \texttt{C} \\
-        2 & \texttt{OP A, B} & \texttt{A} $\gets$ \texttt{A} OP \texttt{B} \\
-        1 & \texttt{OP A} & \texttt{AC} $\gets$ \texttt{AC} OP \texttt{A} \\
-        0 & \texttt{OP} & \texttt{T} $\gets$ \texttt{(T-1)} OP \texttt{T} \\
+        3 & \texttt{OP A, B, C} & \texttt{A} $\gets$ \texttt{B OP C} \\
+        2 & \texttt{OP A, B} & \texttt{A} $\gets$ \texttt{A OP B} \\
+        1 & \texttt{OP A} & \texttt{AC} $\gets$ \texttt{AC OP A} \\
+        0 & \texttt{OP} & \texttt{T} $\gets$ \texttt{(T-1) OP T} \\
         \hline
     \end{tabular}
 \end{table}
