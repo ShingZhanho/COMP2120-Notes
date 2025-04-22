@@ -12,94 +12,95 @@ on:
 
 jobs:
   build-by-miktex:
-      name: Build by MiKTeX
-      runs-on: ubuntu-22.04
-      env:
-        APT_LIST: "" ## Evaluated at runtime
-        ROOT_FILE: ""
-        OUTPUT_FILE: ""
-      strategy:
-        matrix:
-          target: [notes, cheatsheet]
-      steps:
-        - name: Checkout repository
-          uses: actions/checkout@v4
-        ## Configure GPG key
-        - name: Configure MiKTeX GPG key
-          run: |
-            curl -fsSL https://miktex.org/download/key | sudo tee /usr/share/keyrings/miktex-keyring.asc > /dev/null
-            echo "deb [signed-by=/usr/share/keyrings/miktex-keyring.asc] https://miktex.org/download/ubuntu jammy universe" | sudo tee /etc/apt/sources.list.d/miktex.list
-        ## Prepare the environment
-        - name: Get dependencies list
-          run: echo "APT_LIST=$(awk '{$1=$1}1' OFS=' ' RS='' build/apt-list.txt)" >> "$GITHUB_ENV"
-        - name: Include disclaimer header
-          run: |
-              chmod +x ./build/add-disclaimer.sh
-              ./build/add-disclaimer.sh
-        ## Install MiKTeX
-        - name: Install MiKTeX and dependencies
-          id: apt-install
-          uses: awalsh128/cache-apt-pkgs-action@v1
-          with:
-            packages: ${{ env.APT_LIST }}
-        - uses: actions/setup-python@v5
-          with:
-            python-version: '3.13'
-            cache: 'pip'
-        - name: Install Python packages
-          run: |
-            python -m pip install --upgrade pip
-            pip install -r build/requirements.txt
-        ## Restore LaTeX packages cache if apt was cached
-        - name: Restore LaTeX packages from cache
-          id: miktex-cache
-          if: ${{ steps.apt-install.outputs.cache-hit == 'true' }}
-          uses: actions/cache/restore@v4
-          with:
-            key: miktex-pkg-${{ runner.os }}-${{ hashFiles(format('./{0}/packages.tex', matrix.target)) }}
-            path: ~/.miktex
-        ## Finish MiKTeX setup
-        - name: Finish MiKTeX setup
-          run: |
-            miktexsetup finish
-            initexmf --set-config-value [MPM]AutoInstall=1
-            initexmf --enable-installer
-            initexmf --update-fndb
-            initexmf --mkmaps
-        - name: Fix PATH
-          run: echo "PATH=$HOME/bin:$PATH" >> "$GITHUB_ENV"
-        ## Compile the document
-        - name: Get root file
-          run: echo "ROOT_FILE=`(ls ${{ matrix.target }} | grep -E "COMP2120-.*\.tex")`" >> "$GITHUB_ENV"
-        - name: Compile target - ${{ matrix.target }}
-          id: compile
-          run: |
-            latexmk -shell-escape -interaction=nonstopmode -pdf -cd -outdir=. -f ./${{ matrix.target }}/${{ env.ROOT_FILE }}
-            mv ./${{ matrix.target }}/${{ env.ROOT_FILE }} .
-        ## Cache the MiKTeX packages if apt cache or miktex cache did not hit
-        - name: Cache MiKTeX packages
-          if: ${{ !(steps.apt-install.outputs.cache-hit == 'true' && steps.miktex-cache.outputs.cache-hit)  }}
-          uses: actions/cache/save@v4
-          with:
-            key: miktex-pkg-${{ runner.os }}-${{ hashFiles(format('./{0}/packages.tex', matrix.target)) }}
-            path: ~/.miktex
-        ## Upload the artifact
-        - name: Find output file
-          run: echo "OUTPUT_FILE=`(ls ${{ matrix.target }} | grep -E "COMP2120-.*\.pdf")`" >> "$GITHUB_ENV"
-        - name: Upload artifact
-          uses: actions/upload-artifact@v4
-          with:
-            name: pdf-miktex-${{ matrix.target }}
-            path: ${{ matrix.target}}/${{ env.OUTPUT_FILE }}
-            retention-days: 1
-        ## Upload logs
-        - name: Upload compile logs
-          if: ${{ always() }}
-          uses: actions/upload-artifact@v4
-          with:
-            name: logs-miktex-${{ matrix.target }}
-            path: /home/runner/.miktex/texmfs/data/miktex/log/
-            retention-days: 14
+    name: Build by MiKTeX
+    runs-on: ubuntu-22.04
+    if: ${{ !contains(github.event.head_commit.message, '@nobuild') }}
+    env:
+      APT_LIST: "" ## Evaluated at runtime
+      ROOT_FILE: ""
+      OUTPUT_FILE: ""
+    strategy:
+      matrix:
+        target: [notes, cheatsheet]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      ## Configure GPG key
+      - name: Configure MiKTeX GPG key
+        run: |
+          curl -fsSL https://miktex.org/download/key | sudo tee /usr/share/keyrings/miktex-keyring.asc > /dev/null
+          echo "deb [signed-by=/usr/share/keyrings/miktex-keyring.asc] https://miktex.org/download/ubuntu jammy universe" | sudo tee /etc/apt/sources.list.d/miktex.list
+      ## Prepare the environment
+      - name: Get dependencies list
+        run: echo "APT_LIST=$(awk '{$1=$1}1' OFS=' ' RS='' build/apt-list.txt)" >> "$GITHUB_ENV"
+      - name: Include disclaimer header
+        run: |
+            chmod +x ./build/add-disclaimer.sh
+            ./build/add-disclaimer.sh
+      ## Install MiKTeX
+      - name: Install MiKTeX and dependencies
+        id: apt-install
+        uses: awalsh128/cache-apt-pkgs-action@v1
+        with:
+          packages: ${{ env.APT_LIST }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: 'pip'
+      - name: Install Python packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r build/requirements.txt
+      ## Restore LaTeX packages cache if apt was cached
+      - name: Restore LaTeX packages from cache
+        id: miktex-cache
+        if: ${{ steps.apt-install.outputs.cache-hit == 'true' }}
+        uses: actions/cache/restore@v4
+        with:
+          key: miktex-pkg-${{ runner.os }}-${{ hashFiles(format('./{0}/packages.tex', matrix.target)) }}
+          path: ~/.miktex
+      ## Finish MiKTeX setup
+      - name: Finish MiKTeX setup
+        run: |
+          miktexsetup finish
+          initexmf --set-config-value [MPM]AutoInstall=1
+          initexmf --enable-installer
+          initexmf --update-fndb
+          initexmf --mkmaps
+      - name: Fix PATH
+        run: echo "PATH=$HOME/bin:$PATH" >> "$GITHUB_ENV"
+      ## Compile the document
+      - name: Get root file
+        run: echo "ROOT_FILE=`(ls ${{ matrix.target }} | grep -E "COMP2120-.*\.tex")`" >> "$GITHUB_ENV"
+      - name: Compile target - ${{ matrix.target }}
+        id: compile
+        run: |
+          latexmk -shell-escape -interaction=nonstopmode -pdf -cd -outdir=. -f ./${{ matrix.target }}/${{ env.ROOT_FILE }}
+          mv ./${{ matrix.target }}/${{ env.ROOT_FILE }} .
+      ## Cache the MiKTeX packages if apt cache or miktex cache did not hit
+      - name: Cache MiKTeX packages
+        if: ${{ !(steps.apt-install.outputs.cache-hit == 'true' && steps.miktex-cache.outputs.cache-hit)  }}
+        uses: actions/cache/save@v4
+        with:
+          key: miktex-pkg-${{ runner.os }}-${{ hashFiles(format('./{0}/packages.tex', matrix.target)) }}
+          path: ~/.miktex
+      ## Upload the artifact
+      - name: Find output file
+        run: echo "OUTPUT_FILE=`(ls ${{ matrix.target }} | grep -E "COMP2120-.*\.pdf")`" >> "$GITHUB_ENV"
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: pdf-miktex-${{ matrix.target }}
+          path: ${{ matrix.target}}/${{ env.OUTPUT_FILE }}
+          retention-days: 1
+      ## Upload logs
+      - name: Upload compile logs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-miktex-${{ matrix.target }}
+          path: /home/runner/.miktex/texmfs/data/miktex/log/
+          retention-days: 14
   deploy:
     name: Build and deploy static site
     runs-on: ubuntu-latest
