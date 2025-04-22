@@ -174,3 +174,62 @@ software.
 \end{itemize}
 
 \subsection{Assembly Language Programming}
+
+\begin{remark}
+
+Assembly Language is very instruction set architecture (ISA) dependent. The language
+differs from one architecture to another. This course focuses on a hypothetical
+machine, with the following features:
+\begin{itemize}
+    \item Comments start with a \texttt{\#}\footnotemark and continue to the end of the line;
+    \item Destination operands are on the \textbf{right} of the operands list;
+    \item Instructions are case insensitive;
+\end{itemize}
+
+\end{remark}
+
+\footnotetext{For using \LaTeX's \texttt{minted} package for syntex highlighting,
+    the comment character in these notes will still be ``\texttt{;}'' like in most assembly
+    languages.}
+
+\subsubsection{Syntax}
+
+\begin{definition}[Assembly Language Syntax]
+    Each line of assembly language consists of:
+    \begin{minted}[style=friendly]{asm}
+        LABEL: OPERATION_MNEMONIC OPERAND_1, OPERAND_2, ..., OPERAND_N ; COMMENT
+    \end{minted}
+    \begin{itemize}
+        \item \texttt{LABEL}: optional, used to identify a location in the program;
+        \item \texttt{OPERATION\_MNEMONIC}: the operation to be performed;
+        \item \texttt{OPERAND\_1, OPERAND\_2, ..., OPERAND\_N}: the operands for the operation;
+        \item \texttt{COMMENT}: optional, used to explain the purpose of the instruction.
+    \end{itemize}
+\end{definition}
+
+\subsubsection{Assembler Directives}
+
+Like compiler directives in C/C++, assembly language also has assembler directives.
+Assembler directives are for the assembler to perform an action or change a setting,
+they are not translated into machine code. Assembler directives start with a dot.
+
+\begin{table}[H]
+    \centering
+    \begin{tabularx}{\textwidth}{|l|*{1}{>{\RaggedRight\arraybackslash}X|}}
+        \hline
+        \textbf{Assembler Directive} & \textbf{Description} \\
+        \hline
+        \texttt{.DATA} & Adds the subsequent data to the data segment. \\
+        \hline
+        \texttt{.TEXT} & Adds the subsequent code to the text (program) segment. \\
+        \hline
+        \texttt{.GLOBAL NAME} & Makes \texttt{NAME} available to external files. \\
+        \hline
+        \texttt{.SPACE EXPRESSION} & Reserves spaces with the amount specified by the
+        value of \texttt{EXPRESSION} in bytes. Reserved space is filled with 0's. \\
+        \hline
+        \texttt{.WORD VALUE\_1[, VALUE\_2, ...]} & Puts the values in successive memory
+        locations.\\
+        \hline
+    \end{tabularx}
+\end{table}
