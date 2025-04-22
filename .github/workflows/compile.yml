@@ -53,7 +53,7 @@ jobs:
         ## Restore LaTeX packages cache if apt was cached
         - name: Restore LaTeX packages from cache
           id: miktex-cache
-          if: ${{ steps.apt-install.outputs.cache-hit }}
+          if: ${{ steps.apt-install.outputs.cache-hit == 'true' }}
           uses: actions/cache/restore@v4
           with:
             key: miktex-pkg-${{ runner.os }}-${{ hashFiles(format('./{0}/packages.tex', matrix.target)) }}
@@ -78,7 +78,7 @@ jobs:
             mv ./${{ matrix.target }}/${{ env.ROOT_FILE }} .
         ## Cache the MiKTeX packages if apt cache or miktex cache did not hit
         - name: Cache MiKTeX packages
-          if: ${{ !(steps.apt-install.outputs.cache-hit && steps.miktex-cache.outputs.cache-hit)  }}
+          if: ${{ !(steps.apt-install.outputs.cache-hit == 'true' && steps.miktex-cache.outputs.cache-hit)  }}
           uses: actions/cache/save@v4
           with:
             key: miktex-pkg-${{ runner.os }}-${{ hashFiles(format('./{0}/packages.tex', matrix.target)) }}
