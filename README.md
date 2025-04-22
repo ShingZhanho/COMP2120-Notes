@@ -1,10 +1,5 @@
 # COMP2120 Notes
 
-> [!warning]
-> The GitHub Actions automated deployment is currently undergoing technical difficulties.
-> The download links below are currently OUTDATED versions of the resources.
-> Please clone the repository and build the documents locally.
-
 ## Revision Notes
 
 The revision notes are automatically compiled and published on GitHub Pages.
