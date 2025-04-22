@@ -52,8 +52,9 @@ jobs:
             pip install -r build/requirements.txt
         ## Restore LaTeX packages cache if apt was cached
         - name: Restore LaTeX packages from cache
-          uses: actions/cache/restore@v4
+          id: miktex-cache
           if: ${{ steps.apt-install.outputs.cache-hit }}
+          uses: actions/cache/restore@v4
           with:
             key: miktex-pkg-${{ runner.os }}-${{ hashFiles(format('./{0}/packages.tex', matrix.target)) }}
             path: ~/.miktex
@@ -75,10 +76,10 @@ jobs:
           run: |
             latexmk -shell-escape -interaction=nonstopmode -pdf -cd -outdir=. -f ./${{ matrix.target }}/${{ env.ROOT_FILE }}
             mv ./${{ matrix.target }}/${{ env.ROOT_FILE }} .
-        ## Cache the MiKTeX packages if apt cache did not hit
+        ## Cache the MiKTeX packages if apt cache or miktex cache did not hit
         - name: Cache MiKTeX packages
+          if: ${{ !(steps.apt-install.outputs.cache-hit && steps.miktex-cache.outputs.cache-hit)  }}
           uses: actions/cache/save@v4
-          if: ${{ !steps.apt-install.outputs.cache-hit }}
           with:
             key: miktex-pkg-${{ runner.os }}-${{ hashFiles(format('./{0}/packages.tex', matrix.target)) }}
             path: ~/.miktex
