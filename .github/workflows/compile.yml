@@ -67,6 +67,7 @@ jobs:
           initexmf --enable-installer
           initexmf --update-fndb
           initexmf --mkmaps
+          miktex packages update
       - name: Fix PATH
         run: echo "PATH=$HOME/bin:$PATH" >> "$GITHUB_ENV"
       ## Compile the document
