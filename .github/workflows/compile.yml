@@ -38,6 +38,7 @@ jobs:
               ./build/add-disclaimer.sh
         ## Install MiKTeX
         - name: Install MiKTeX and dependencies
+          id: apt-install
           uses: awalsh128/cache-apt-pkgs-action@v1
           with:
             packages: ${{ env.APT_LIST }}
@@ -49,9 +50,10 @@ jobs:
           run: |
             python -m pip install --upgrade pip
             pip install -r build/requirements.txt
-        ## Restore LaTeX packages cache
-        - name: Cache LaTeX packages
-          uses: actions/cache@v4
+        ## Restore LaTeX packages cache if apt was cached
+        - name: Restore LaTeX packages from cache
+          uses: actions/cache/restore@v4
+          if: ${{ steps.apt-install.outputs.cache-hit }}
           with:
             key: miktex-pkg-${{ runner.os }}-${{ hashFiles(format('./{0}/packages.tex', matrix.target)) }}
             path: ~/.miktex
@@ -73,6 +75,13 @@ jobs:
           run: |
             latexmk -shell-escape -interaction=nonstopmode -pdf -cd -outdir=. -f ./${{ matrix.target }}/${{ env.ROOT_FILE }}
             mv ./${{ matrix.target }}/${{ env.ROOT_FILE }} .
+        ## Cache the MiKTeX packages if apt cache did not hit
+        - name: Cache MiKTeX packages
+          uses: actions/cache/save@v4
+          if: ${{ !steps.apt-install.outputs.cache-hit }}
+          with:
+            key: miktex-pkg-${{ runner.os }}-${{ hashFiles(format('./{0}/packages.tex', matrix.target)) }}
+            path: ~/.miktex
         ## Upload the artifact
         - name: Find output file
           run: echo "OUTPUT_FILE=`(ls ${{ matrix.target }} | grep -E "COMP2120-.*\.pdf")`" >> "$GITHUB_ENV"
