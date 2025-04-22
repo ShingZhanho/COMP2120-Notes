@@ -189,8 +189,7 @@ machine, with the following features:
 \end{remark}
 
 \footnotetext{For using \LaTeX's \texttt{minted} package for syntex highlighting,
-    the comment character in these notes will still be ``\texttt{;}'' like in most assembly
-    languages.}
+    the comment character in these notes will be ``\texttt{;}''.}
 
 \subsubsection{Syntax}
 
@@ -233,3 +232,116 @@ they are not translated into machine code. Assembler directives start with a dot
         \hline
     \end{tabularx}
 \end{table}
+
+\subsubsection{Flow Control}
+
+\begin{enumerate}
+
+\item {\bfseries \texttt{IF...THEN...ELSE...} structure}
+\begin{example}
+    The following C/C++ code:
+    \begin{minted}[style=friendly]{cpp}
+    if (a[0] > a[1]) x = a[0];
+    else x = a[1];
+    \end{minted}
+    is equivalent to the following assembly code:
+\begin{minted}[style=friendly]{asm}
+        .DATA   ; declares the data segment
+a:      .WORD 1 ; a[0] = 1
+        .WORD 3 ; a[1] = 3
+x:      .WORD 4 ; x = 4
+        .TEXT   ; declares the program segment
+main:
+        LD      [a], R8     ; load address of a into R8
+        LD      0(R8), R9   ; load a[0] into R9 (displacement addressing)
+        LD      4(R8), R10  ; load a[1] into R10 (displacement addressing)
+        BGT     R9, R10, f1 ; if a[0] > a[1], branch to f1
+        ST      R10, x      ; else: x = a[1]
+        BR      f2
+f1:     ST      R9, x       ; x = a[0]
+f2:     RET                 ; return to the caller
+\end{minted}
+\end{example}
+
+\item {\bfseries \texttt{FOR} loop}
+\begin{example}
+    The following C/C++ code:
+    \begin{minted}[style=friendly]{cpp}
+    a = 0;
+    for (i = 0; i < 10; i++) a += i;
+    \end{minted}
+    is equivalent to the following assembly code:
+\begin{minted}[style=friendly]{asm}
+        .DATA   ; declares the data segment
+a:      .WORD 0
+        .TEXT
+main:
+        SUB     R8, R8, R8      ; prepare R8 = 0 as the counter
+        LD      0xa, R9         ; constant 10 in R9 (hexadecimal)
+        LD      0x1, R10        ; constant 1 in R10 for incrementing R8
+        SUB     R11, R11, R11   ; use R11 as sum
+L:      ADD     R11, R8, R11    ; R11 += R8
+        ADD     R8, R10, R8     ; R8++
+        BGT     R9, R8, L       ; branch to L if R9 (10) > R8 (counter)
+        ST      R11, [a]
+        RET
+\end{minted}
+\end{example}
+
+\item {\bfseries \texttt{WHILE} loop} -- very similar to \texttt{FOR} loops.
+\item {\bfseries Function calls}
+
+Use \texttt{CALL} to make a function call, and \texttt{RET} to return from the function.
+Input/return parameters are passed in registers and need to be documented by the developer.
+If the function modifies some other registers, either document this behaviour, or use
+\texttt{PUSH} and \texttt{POP} to save and restore the registers before and after the
+function.
+\begin{example}
+    The following assembly code shows how to call a function \texttt{c\_mult} that
+    multiplies two complex numbers.
+    ($\Re(a\cdot b) = \Re(a)\cdot\Re(b) - \Im(a)\cdot\Im(b)$ and
+    $\Im(a\cdot b) = \Re(a)\cdot\Im(b) + \Im(a)\cdot\Re(b)$)
+\begin{minted}[style=friendly]{asm}
+        .DATA
+ar:     .WORD 1     ; Re(a) = 1 (real part of complex number a)
+ai:     .WORD 5     ; Im(a) = 5 (imaginary part of complex number a)
+br:     .WORD 2
+bi:     .WORD 3
+cr:     .WORD 0
+ci:     .WORD 0
+        .TEXT
+main:
+        LD      [ar], R8
+        LD      [ai], R9
+        LD      [br], R10
+        LD      [bi], R11
+        CALL    c_mult
+        ST      R12, [cr]
+        ST      R13, [ci]
+        RET
+main:
+        LD      [ar], R8    ; Prepare parameters for c_mult
+        LD      [ai], R9
+        LD      [br], R10
+        LD      [bi], R11
+        CALL    c_mult      ; Call c_mult
+        ST      R12, [cr]   ; Store the result
+        ST      R13, [ci]
+        RET
+c_mult: 
+        ; multiply two complex numbers
+        ; input: R8 = Re(a), R9 = Im(a), R10 = Re(b), R11 = Im(b)
+        ; output: R12 = Re(a*b), R13 = Im(a*b)
+        PUSH    R14         ; use R14 as a temporary register
+        MUL     R8, R10, R12
+        MUL     R9, R11, R14
+        SUB     R12, R14, R12
+        MUL     R8, R11, R13
+        MUL     R9, R10, R14
+        ADD     R13, R14, R13
+        POP     R14
+        RET
+\end{minted}
+\end{example}
+
+\end{enumerate}
