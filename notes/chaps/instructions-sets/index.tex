@@ -336,3 +336,44 @@ c_mult:
 \end{example}
 
 \end{enumerate}
+
+\subsection{Operating System Support}
+
+The operating system (OS) is a software that controls the execution of programs and
+manages hardware resources. It allows a computer to be used efficiently and conveniently.
+
+\textbf{Services provided by the OS}:
+\begin{itemize}
+    \item \textbf{Program Creation} -- through compilers, assemblers, editors, debuggers etc.
+    \item \textbf{Program Execution} -- through loading programs into memory and preparing resources for the program
+    \item \textbf{I/O Access} -- through providing a uniform I/O interface while the implementation is left to the OS
+    \item \textbf{File System Management}
+    \item \textbf{System Access} -- control access to system resources to prevent unauthorised users
+    \item \textbf{Error Detection and Response}
+    \item \textbf{Accounting} -- collecting usage statistics and monitoring performance parameters
+\end{itemize}
+
+\subsubsection{OS Protection Scheme}
+
+Most OSs uses two modes of operation: \textbf{user mode} and \textbf{kernel mode}.
+The CPU will execute in different modes to facilitate protection. Some OSs may use up
+to four modes. Some resources are only accessible in kernel mode.
+
+An OS is supposed to be well-tested, while bugs may exist in user programs.
+
+OS functions are usually accessed via special entry points called \textbf{system calls}.
+Upon a system call, the CPU will switch from user mode to kernel mode.
+
+\subsubsection{Multitasking, Time Sharing \& Process Scheduling}
+
+To fully utilise the CPU, the CPU is shared among multiple processes. Each process
+is given a time slice to execute. When it uses up its time slice, the CPU will
+suspend the execution and switch to another process.
+
+The OS maintains a queue of processes in which the order of execution depends on
+several factors, such as priority, waiting time, whether the process has used up
+its time slice (i.e. CPU-bound jobs), the current system load, etc.
+
+\subsection{Processor Organisation}
+
+\subsection{Rich Instruction Set Architecture (RISC)}
