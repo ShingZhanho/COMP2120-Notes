@@ -1,0 +1,41 @@
+\subsection{Virtual Memory}
+
+In multitasking operating systems, the demand of memory is often greater than the
+available physical memory. To solve this problem, virtual memory is introduced.
+
+\textbf{Physical Address} vs \textbf{Logical Address}:
+\begin{itemize}
+    \item \textbf{Physical Address}: The address used to actually access the physical memory, which can be smaller (e.g. 1 GiB).
+    \item \textbf{Logical Address}: The addressing space that a program/process sees, which can be larger. (e.g. 4 GiB if 32-bit)
+\end{itemize}
+
+Mapping between logical and physical addresses is done by the \textbf{Memory Management Unit (MMU)}.
+Similar to Cache memory, the MMU is based on the principle of locality.
+It maps a logical address (of a program) to a physical address (of the memory).
+
+\subsubsection{Paging \& Page Table}
+
+Physical memory is divided into fixed-size blocks called \textbf{frames},
+and logical memory is divided into blocks of the same size called \textbf{pages}.
+
+Each process has its own logical address space, hence each process will be divided
+into several pages. The OS maintains a \textbf{page table} for each process.
+
+Each page in logical address space has a corresponding page table entry (PTE).
+The format of a PTE is roughly:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{cccc}
+    1 bit                                & several bits                              & one bit                                         & serveral bits                          \\ \hline
+    \multicolumn{1}{|c|}{\textbf{V}alid bit} & \multicolumn{1}{c|}{\textbf{P}rotection Bits} & \multicolumn{1}{c|}{\textbf{D}irty Bit} & \multicolumn{1}{c|}{Physical Frame \#} \\ \hline           
+    \end{tabular}
+\end{table}
+
+\begin{itemize}
+    \item \textbf{Valid Bit}: Indicates whether the page is in memory or not.
+    \item \textbf{Protection Bits}: Indicate the access rights of the page (read, write, execute, user/kernel access).
+    \item \textbf{Dirty Bit}: Indicates whether the page has been modified or not.
+    \item \textbf{Physical Frame \#}: The frame number in physical memory where the page is stored.
+\end{itemize}
+
