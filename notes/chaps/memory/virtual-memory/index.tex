@@ -39,3 +39,41 @@ The format of a PTE is roughly:
     \item \textbf{Physical Frame \#}: The frame number in physical memory where the page is stored.
 \end{itemize}
 
+\subsubsection{Demand Paging \& Page Fault}
+\zexternaldocument{chaps/memory/cache-memory/index}
+
+When a program is loaded, not all its pages are loaded at once. The OS only loads
+the pages needed, i.e. on demand, hence the name \textbf{demand paging}.
+\textbf{Pros}: fast response since only a few pages are loaded, and less memory usage.
+\textbf{Cons}: a lot of page faults until a stable set of pages is loaded.
+
+When the program branches to another instruction on a page that is not in memory,
+a \textbf{page fault} occurs. The program will be suspended and the OS will take over
+to load the required page, then restart the program.
+
+When the memory is full and no free frames are available, the OS will use different
+replacement algorithms to select a frame to be replaced. The algorithms are the same
+as those introduced in Section \ref{sec:replacement-algorithms}.
+
+\subsubsection{Address Translation \& TLB}
+
+The logical address has a page \# and an offset. The page number will be used to
+look up the page table to find the corresponding physical frame \#. Then, after adding
+the offset, the physical address can be obtained and data can be fetched from the memory.
+
+This process involves two memory accesses: page table lookup and data access.
+To speed up, a \textbf{Translation Lookaside Buffer (TLB)} is used.
+The TLB acts like a cache, which maintains a small number of valid PTEs.
+If a PTE is not in TLB, then the page table is consulted.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\textwidth]{chaps/memory/virtual-memory/virtual-memory-paging-process.png}
+    \caption{Rough process of paging operation}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.65\textwidth]{chaps/memory/virtual-memory/tlb-operation.png}
+    \caption{TLB and cache operation}
+\end{figure}
