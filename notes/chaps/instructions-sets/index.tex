@@ -311,15 +311,6 @@ cr:     .WORD 0
 ci:     .WORD 0
         .TEXT
 main:
-        LD      [ar], R8
-        LD      [ai], R9
-        LD      [br], R10
-        LD      [bi], R11
-        CALL    c_mult
-        ST      R12, [cr]
-        ST      R13, [ci]
-        RET
-main:
         LD      [ar], R8    ; Prepare parameters for c_mult
         LD      [ai], R9
         LD      [br], R10
