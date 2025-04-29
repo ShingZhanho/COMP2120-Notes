@@ -53,3 +53,13 @@ No floating point by hardware, must be emulated.
 \emph{Register Indirect} (\texttt{EA = (R)}): operand points to register, register has address; \textbf{Pros \& Cons}: same as indirect\\
 \emph{Displacement} (\texttt{EA = A + (R)}): address is base address + offset; \textbf{Pros}: flexible; \textbf{Cons}: complex; Usage: local vars, arrays; Registers: PC, SP, base pointer register\\
 \emph{Stack} (\texttt{EA = Top of Stack}): implicit; \textbf{Pros}: no memory references; \textbf{Cons}: limited applicability; Usage: \texttt{PUSH} and \texttt{POP}; Register: SP
+
+\subsection*{Assembly Language}
+\emph{Syntax}\\
+\texttt{[LABEL:] OP\_NAME [OP\_1, OP\_2, ...] [\# COMMENT]}\\
+\emph{Assembler Directives}\\
+\texttt{.data} \hfill data segment\\
+\texttt{.text} \hfill program segment\\
+\texttt{.global NAME} \hfill (\texttt{extern})\\
+\texttt{.reserve EXPR} \hfill reserve space with 0\\
+\texttt{.word VAL1[, ...]} \hfill write to memory\\
