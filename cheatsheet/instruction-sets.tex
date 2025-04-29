@@ -44,3 +44,12 @@ Supported lengths: \begin{enuminline}
 \end{enuminline}\\
 Only unsigned integers, nonnegative integers, and 2's comp integers.\\
 No floating point by hardware, must be emulated.
+
+\subsection*{Addressing Modes}
+\emph{Immediate} (\texttt{OP = A}): operand is value; \textbf{Pros}: no memory reference; \textbf{Cons}: small operand magnitude\\
+\emph{Direct} (\texttt{EA = A}): operand is address; \textbf{Pros}: fast \& increased magnitude; \textbf{Cons}: limited address space\\
+\emph{Indirect} (\texttt{EA = (A)}): operand is address of address; \textbf{Pros}: large address space; \textbf{Cons}: multiple memory references\\
+\emph{Register} (\texttt{EA = R}): operand points to register; \textbf{Pros}: fast; \textbf{Cons}: limited \# of registers (\eg 32 in MIPS)\\
+\emph{Register Indirect} (\texttt{EA = (R)}): operand points to register, register has address; \textbf{Pros \& Cons}: same as indirect\\
+\emph{Displacement} (\texttt{EA = A + (R)}): address is base address + offset; \textbf{Pros}: flexible; \textbf{Cons}: complex; Usage: local vars, arrays; Registers: PC, SP, base pointer register\\
+\emph{Stack} (\texttt{EA = Top of Stack}): implicit; \textbf{Pros}: no memory references; \textbf{Cons}: limited applicability; Usage: \texttt{PUSH} and \texttt{POP}; Register: SP
