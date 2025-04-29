@@ -6,3 +6,41 @@
 replenish new bits with 0.\\
 \emph{Rotate Operations}: put bits shifted out back into the other end of the number;
 are logical operations.\\
+
+\subsection*{Instruction Operands}
+Op\# \hfill Symbolic \hfill Interpret\\
+3 \hspace*{0.2\linewidth} \texttt{OP A, B, C} \hfill \texttt{A$\gets$B OP C}\\
+2 \hspace*{0.2\linewidth} \texttt{OP A, B} \hfill \texttt{A$\gets$A OP B}\\
+1 \hspace*{0.2\linewidth} \texttt{OP A} \hfill \texttt{AC$\gets$AC OP A}\\
+0 \hspace*{0.2\linewidth} \texttt{OP} \hfill \texttt{T$\gets$(T-1) OP T}\\
+
+\subsection*{Registers}
+\emph{General Purpose Registers}: can be used for whatever reason\\
+\emph{Dedicated Purpose Registers}: have a specific purpose (\eg PC, IR, SP, processor status word - PSW, flag)
+
+\subsection*{Data Types}
+
+\subsubsection*{Basic Data Types}
+Typical lengths: 8, 16, 32, 64 bits\\
+\emph{Numeric}: integer, floating point;\\
+\emph{Non-numeric}: character, binary data;
+
+\subsubsection*{MIPS Architecture}
+(family of RISC, not ARM nor x86)\\
+9 basic types: \begin{enuminline}
+    \item (un)/signed bytes;
+    \item (un)/signed half-words;
+    \item (un)/signed words;
+    \item double-words;
+    \item single-precision floating point (32 bits);
+    \item double-precision floating point (64 bits);
+\end{enuminline}
+
+\subsubsection*{ARM Architecture}
+Supported lengths: \begin{enuminline}
+    \item byte (8 bits);
+    \item half-word (16 bits);
+    \item word (32 bits);
+\end{enuminline}\\
+Only unsigned integers, nonnegative integers, and 2's comp integers.\\
+No floating point by hardware, must be emulated.
