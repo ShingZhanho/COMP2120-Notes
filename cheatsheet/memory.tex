@@ -93,6 +93,25 @@ $i \, (\text{Set \#}) = j \, (\text{Main mem block}) \, \%\, v$.\\
 \emph{Unified}: Instructions and data share the same cache. Auto balanced. Memory contention problem on pipeline and parallel executions, causes bottoleneck.\\
 \emph{Split}: Instructions and data have fixed-size separate caches. Better performance. Main trend.
 
+\subsection*{Virtual Memory}
+\emph{Physical vs Logical Address}: Physical for addressing actual memory, space smaller; logical visible to the program, space may be larger.\\
+\emph{Memory Management Unit (MMU)}: Maps between logical and physical addresses.
+
+\subsubsection*{Paging}
+\emph{Page vs Frame}: Page is a fixed-size block of logical memory, frame is a fixed-size block of physical memory.\\
+\emph{Demand Paging}: Pages are loaded into memory only when needed.\\
+\emph{Page Fault}: Occurs when a page is not in memory.\\
+\textbf{Pros}: fast response; less memory usage;
+\textbf{Cons}: page faults until stable set of pages loaded.\\
+\emph{Page Table}: One page table per process, maps logical pages to physical frames.\\
+\emph{PTE}: (\textbf{VPDF}) --
+\textbf{V}alid bit (whether page in memory),
+\textbf{P}rotection bits (manages access rights),
+\textbf{D}irty bit (whether page modified),
+\textbf{F}rame number (physical frame \#).\\
+\emph{Translation Lookaside Buffer (TLB)}: Like a cache, stores some valid PTEs.
+TLB consulted first, if not found, page table is consulted.\\
+
 \subsection*{External Memory}
 
 \subsubsection*{Hard Disk Drive (HDD)}
