@@ -36,6 +36,20 @@ data transfer can be performed on one bus.
     This note assumes the computer uses 32-bit word.
 \end{remark}
 
+\label{lbl:instruction-execution-cycle}
+A typical instruction execution cycle consists of these stages:
+\begin{enumerate}
+    \item Instruction Fetch (IF);
+    \item Instruction Decode (ID);
+    \item Instruction Execution, which includes:
+    \begin{enumerate}
+        \item Calculate Operand Address (CO);
+        \item Operand Fetch (OF);
+        \item Execution (EI);
+        \item Write Operand (WO);
+    \end{enumerate}
+\end{enumerate}
+
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.85\textwidth]{chaps/instruction-execution-cycle/instruction-cycle-interrupts.png}
