@@ -442,4 +442,80 @@ and they do not need the \texttt{EI} stage. Other instructions usually do not ne
     \end{multicols}
 \end{example}
 
+\subsubsection{Instruction Pipeline}
+
+Main purpose: to increase the throughput of instruction execution.
+
+Suppose an instruction has 5 stages, and each stage takes exactly 1 clock cycle to execute,
+then, an ideal pipeline will finish executing $n$ instructions in $(5 + n - 1)$ clock cycles,
+as shown in Figure \ref{fig:ideal-5-stage-pipeline-time-diagram}, as opposed to $5n$ clock cycles
+if executed sequentially.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.4\linewidth]{chaps/instructions-sets/ideal-5-stage-pipeline-time-diagram.png}
+    \caption{Ideal 5-stage Pipeline Time Diagram}
+    \label{fig:ideal-5-stage-pipeline-time-diagram}
+\end{figure}
+
+However, in practice, this pipelining strategy will cause problems, such as when $I_2$ operates on
+data produced by $I_1$, but the IF stage already took place before WO of $I_1$ is performed,
+incorrect data will arise. These problems are called \textbf{pipeline hazards}.
+
+Pipeline hazards can be classified into three categories:
+\begin{enumerate}
+    \item \textbf{Resource Hazard} (or \textit{structural hazard}): e.g. when PC increment and an ALU
+        operation happen at the same time, the ALU (the hardware resource) will be in conflict.
+    
+        \textbf{Solution}: Add more resources. E.g. a dedicated incrementer for the PC,
+        separate data/instruction caches (split cache), etc.
+
+    \item \textbf{Data Hazard}: instruction waiting for the result from previous instructions due to
+        data dependency. Three types of data hazards:
+        \begin{enumerate}
+            \item \textbf{Read After Write (RAW)}: $I_1$ writes to a register, and $I_2$ reads from the same
+                register. Occurs if the read happens before the write is done.
+            \item \textbf{Write After Read (WAR)}: $I_1$ reads from a register, and $I_2$ writes to the same
+                register. Occurs if the write happens before the read is done.
+            \item \textbf{Write After Write (WAW)}: $I_1$ and $I_2$ write to the same register.
+                Occurs if the second write happens before the first write is done.
+        \end{enumerate}
+        Note that only RAW occurs in pipeline (refer to Figure \ref{fig:ideal-5-stage-pipeline-time-diagram}).
+        The others occur in parallel systems.
+
+        \textbf{Solutions}:
+        \begin{itemize}
+            \item \textbf{Stalling}: wait until the dependent instruction is done. This will put the
+                processor in idle, which wastes time.
+            \item \textbf{Rearrange Instructions}: rearrange the instructions so that the instruction
+                that depends on the result of the previous instruction is only executed after the previous
+                instruction is done. This is not always possible.
+            \item \textbf{Data Forwarding}: (a hardware solution) by forwarding the result from
+                \texttt{ALU\_out} to \texttt{ALU\_in} when the next instruction is executed.
+        \end{itemize}
+
+    \item \textbf{Control Hazard}: occurs when the \texttt{IF} stage of the next instruction cannot start
+        until the previous branch is resolved.
+
+        \textbf{Solution}: Unsolvable. The CPU must either wait, or guess the branch target by \textbf{branch
+        prediction}. Two types of branch prediction:
+        \begin{enumerate}
+            \item \textbf{Static Prediction}: always predict the same branch target. E.g. always predict
+                the branch will be taken, or will not be taken. 50\% correct on average, in some cases like
+                \texttt{for} loops, higher accuracy since most of the time the branch will be taken.
+                Potential problem: when the branch target is on a different page, the branch penalty will be
+                higher to involve the time taken to resolve the page fault.
+            \item \textbf{Dynamic Prediction}:
+                \begin{itemize}
+                    \item \textbf{1-bit Prediction}: use a single bit for prediction strategy. If the prediction
+                        is correct, keep predicting the same. If the prediction is wrong, change the prediction.
+                        Problem: at the end of a \texttt{for} loop, the prediction must be wrong, if another
+                        \texttt{for} loop follows, the prediction will be wrong again.
+                    \item \textbf{2-bit Prediction}: requires two consecutive wrong predictions to change the
+                        prediction.
+                \end{itemize}
+        \end{enumerate}
+    
+\end{enumerate}
+
 \subsection{Reduced Instruction Set Computer (RISC) Architecture}
