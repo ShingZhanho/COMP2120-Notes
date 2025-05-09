@@ -94,7 +94,8 @@ jobs:
         id: download-pdf
         if: ${{ steps.check-hash.outputs.changed == 0 }}
         run: |
-          curl https://shingzhanho.github.io/COMP2120-Notes/${${{ env.ROOT_FILE }}/.tex/.pdf} --output ./${{ matrix.target }}/${${{ env.ROOT_FILE }}/.tex/.pdf}
+          echo "OUTPUT_FILE=${${{ env.ROOT_FILE }}/.tex/.pdf}" >> "$GITHUB_ENV"
+          curl https://shingzhanho.github.io/COMP2120-Notes/${{ env.OUTPUT_FILE }} --output ./${{ matrix.target }}/${{ env.OUTPUT_FILE }}
       ## Cache the MiKTeX packages if apt cache or miktex cache did not hit
       - name: Cache MiKTeX packages
         if: ${{ !(steps.apt-install.outputs.cache-hit == 'true' && steps.miktex-cache.outputs.cache-hit) && steps.check-hash.outputs.changed == 1 }}
