@@ -519,3 +519,29 @@ Pipeline hazards can be classified into three categories:
 \end{enumerate}
 
 \subsection{Reduced Instruction Set Computer (RISC) Architecture}
+
+Characteristics of RISC architecture:
+\begin{itemize}
+    \item \textbf{Load/Store Architecture}: all instructions are register-to-register, with the only
+        exceptions being \texttt{LD} and \texttt{ST} instructions, which access memory.
+    \item \textbf{Fixed-length and Simple, Fixed-format Instructions}: all instructions are of the same length,
+        and have the same format. \texttt{OF} can always be done directly since the operands are always in the
+        same place. ($\Rightarrow$ high clock rate, low clock cycle time)
+    \item \textbf{Fewer Addressing Modes}: allows simple CPU and faster clock rate. Pipeline is easier to implement
+        since there are less cases to consider ($\Rightarrow$ low CPI).
+    \item \textbf{More Instructions}: due to the fixed-length and simple instructions, more instructions are needed
+        to perform the same task. However, empirical study shows that the increase in instruction count does not
+        significantly affect the performance. (e.g. increase in instruction count by 20\% $\Rightarrow$ 
+        CPI reduced by 2 to 4 times)
+    \item \textbf{Extensive Software and Hardware Pipelining}: use instruction-level parallelism and extensive
+        software and hardware techniques to eliminate pipeline hazards.
+    \item \textbf{Compiler Optimisation}: relies on the compiler to optimise the code.
+\end{itemize}
+
+\begin{remark}
+    The RISC characteristics can be applied to any processor design, not just RISC.
+    The RISC is a design philosophy rather than a specific architecture.
+    Some hybrid designs feature both RISC and CISC\footnotemark design principles.
+\end{remark}
+
+\footnotetext{Complex Instruction Set Computer}
