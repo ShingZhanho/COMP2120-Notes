@@ -1,11 +1,12 @@
 #!/bin/bash
 # This script downloads the hash of the LaTeX target.
 # ARGS:
-#   $1: The hash file's name (e.g. COMP2120-Notes.pdf.hash)
+#   $1: The compile target root file (e.g. COMP2120-Notes.tex)
 #   $2: The local .tex sources hash.
 # OUTPUT:
 #   changed: 1 if the hash is different. 0 if the hash is the same.
-HASH_FILE="$1"
+ROOT_FILE="$1"
+HASH_FILE=${ROOT_FILE/.tex/.pdf.hash}
 HTTP_URL="https://shingzhanho.github.io/COMP2120-Notes/$HASH_FILE"
 HTTP_STATUS=$(curl -s -o ./$HASH_FILE -w "%{http_code}" "$HTTP_URL")
 if [ "$HTTP_STATUS" -ne 200 ]; then
