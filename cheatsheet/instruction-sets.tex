@@ -105,3 +105,13 @@ Ideal throughput = $1 \text{ CPI}$.
     \item \textbf{1-bit}: If wrong prediction, predict opposite; Problem: high misprediction rate at the end of loops;
     \item \textbf{2-bit}: If two consecutive wrong predictions, predict opposite.
 \end{enuminline}
+
+\subsubsection*{RISC Architecture}
+\emph{Characteristics}: \begin{enuminline}
+    \item Load/store architecture: only load/store instructions access memory;
+    \item Fixed-length, simple, fixed-format instructions $\Rightarrow$ high clock rate, low clock cycle time;
+    \item Fewer addressing modes $\Rightarrow$ low CPI;
+    \item More instructions (reduction in CPI is more significant than increase in instruction count);
+    \item Extensive soft/hardware pipelining;
+    \item Relies on compiler optimisation.
+\end{enuminline}
