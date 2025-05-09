@@ -86,7 +86,6 @@ jobs:
         if: ${{ steps.check-hash.outputs.changed == 1 }}
         run: |
           latexmk -shell-escape -interaction=nonstopmode -pdf -cd -outdir=. -f ./${{ matrix.target }}/${{ env.ROOT_FILE }}
-          mv ./${{ matrix.target }}/${{ env.ROOT_FILE }} .
       - name: Download PDF from remote (document was not changed)
         id: download-pdf
         if: ${{ steps.check-hash.outputs.changed == 0 }}
@@ -108,9 +107,10 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: pdf-miktex-${{ matrix.target }}
-          path:
+          path: |
             ${{ matrix.target }}/${{ env.OUTPUT_FILE }}
             ${{ matrix.target }}/${{ env.OUTPUT_FILE }}.hash
+          if-no-files-found: error
           retention-days: 1
       ## Upload logs
       - name: Upload compile logs
