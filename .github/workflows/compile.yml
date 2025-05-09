@@ -78,7 +78,9 @@ jobs:
         run: echo "SOURCE_HASH=${{ hashFiles(format('./{0}/', matrix.target)) }}" >> "$GITHUB_ENV"
       - name: Check for hash changes
         id: check-hash
-        run: ./build/download-hash.sh ${{ matrix.target }} ${{ env.SOURCE_HASH }}
+        run: |
+          chmod +x ./build/download-hash.sh
+          ./build/download-hash.sh ${{ matrix.target }} ${{ env.SOURCE_HASH }}
       - name: Compile target - ${{ matrix.target }}
         id: compile
         if: ${{ steps.check-hash.outputs.changed == 1 }}
