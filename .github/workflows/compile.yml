@@ -19,6 +19,7 @@ jobs:
       APT_LIST: "" ## Evaluated at runtime
       ROOT_FILE: ""
       OUTPUT_FILE: ""
+      SOURCE_HASH: ""
     strategy:
       matrix:
         target: [notes, cheatsheet]
@@ -73,11 +74,22 @@ jobs:
       ## Compile the document
       - name: Get root file
         run: echo "ROOT_FILE=`(ls ${{ matrix.target }} | grep -E "COMP2120-.*\.tex")`" >> "$GITHUB_ENV"
+      - name: Hash all .tex source files
+        run: echo "SOURCE_HASH=${{ hashFiles(format('./{0}/', matrix.target)) }}" >> "$GITHUB_ENV"
+      - name: Check for hash changes
+        id: check-hash
+        run: ./build/download-hash.sh ${{ matrix.target }} ${{ env.SOURCE_HASH }}
       - name: Compile target - ${{ matrix.target }}
         id: compile
+        if: ${{ steps.check-hash.outputs.changed == 1 }}
         run: |
           latexmk -shell-escape -interaction=nonstopmode -pdf -cd -outdir=. -f ./${{ matrix.target }}/${{ env.ROOT_FILE }}
           mv ./${{ matrix.target }}/${{ env.ROOT_FILE }} .
+      - name: Download PDF from remote (document was not changed)
+        id: download-pdf
+        if: ${{ steps.check-hash.outputs.changed == 0 }}
+        run: |
+          curl https://shingzhanho.github.io/COMP2120-Notes/${${{ env.ROOT_FILE }}/.tex/.pdf} --output ./${{ matrix.target }}/${${{ env.ROOT_FILE }}/.tex/.pdf}
       ## Cache the MiKTeX packages if apt cache or miktex cache did not hit
       - name: Cache MiKTeX packages
         if: ${{ !(steps.apt-install.outputs.cache-hit == 'true' && steps.miktex-cache.outputs.cache-hit)  }}
@@ -88,11 +100,15 @@ jobs:
       ## Upload the artifact
       - name: Find output file
         run: echo "OUTPUT_FILE=`(ls ${{ matrix.target }} | grep -E "COMP2120-.*\.pdf")`" >> "$GITHUB_ENV"
+      - name: Write hash to file
+        run: echo "${{ env.SOURCE_HASH }}" > ${{ matrix.target }}/${{ env.OUTPUT_FILE }}.hash
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: pdf-miktex-${{ matrix.target }}
-          path: ${{ matrix.target}}/${{ env.OUTPUT_FILE }}
+          path:
+            ${{ matrix.target }}/${{ env.OUTPUT_FILE }}
+            ${{ matrix.target }}/${{ env.OUTPUT_FILE }}.hash
           retention-days: 1
       ## Upload logs
       - name: Upload compile logs
