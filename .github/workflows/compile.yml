@@ -38,30 +38,43 @@ jobs:
         run: |
             chmod +x ./build/add-disclaimer.sh
             ./build/add-disclaimer.sh
+      - name: Get root file
+        run: echo "ROOT_FILE=`(ls ${{ matrix.target }} | grep -E "COMP2120-.*\.tex")`" >> "$GITHUB_ENV"
+      - name: Hash all .tex source files
+        run: echo "SOURCE_HASH=${{ hashFiles(format('./{0}/', matrix.target)) }}" >> "$GITHUB_ENV"
+      - name: Check for hash changes
+        id: check-hash
+        run: |
+          chmod +x ./build/download-hash.sh
+          ./build/download-hash.sh ${${{ env.ROOT_FILE }}/.tex/.pdf} ${{ env.SOURCE_HASH }}
       ## Install MiKTeX
       - name: Install MiKTeX and dependencies
         id: apt-install
+        if: ${{ steps.check-hash.outputs.changed == 1 }}
         uses: awalsh128/cache-apt-pkgs-action@v1
         with:
           packages: ${{ env.APT_LIST }}
       - uses: actions/setup-python@v5
+        if: ${{ steps.check-hash.outputs.changed == 1 }}
         with:
           python-version: '3.13'
           cache: 'pip'
       - name: Install Python packages
+        if: ${{ steps.check-hash.outputs.changed == 1 }}
         run: |
           python -m pip install --upgrade pip
           pip install -r build/requirements.txt
       ## Restore LaTeX packages cache if apt was cached
       - name: Restore LaTeX packages from cache
         id: miktex-cache
-        if: ${{ steps.apt-install.outputs.cache-hit == 'true' }}
+        if: ${{ steps.apt-install.outputs.cache-hit == 'true' && steps.check-hash.outputs.changed == 1 }}
         uses: actions/cache/restore@v4
         with:
           key: miktex-pkg-${{ runner.os }}-${{ hashFiles(format('./{0}/packages.tex', matrix.target)) }}
           path: ~/.miktex
       ## Finish MiKTeX setup
       - name: Finish MiKTeX setup
+        if: ${{ steps.check-hash.outputs.changed == 1 }}
         run: |
           miktexsetup finish
           initexmf --set-config-value [MPM]AutoInstall=1
@@ -72,15 +85,6 @@ jobs:
       - name: Fix PATH
         run: echo "PATH=$HOME/bin:$PATH" >> "$GITHUB_ENV"
       ## Compile the document
-      - name: Get root file
-        run: echo "ROOT_FILE=`(ls ${{ matrix.target }} | grep -E "COMP2120-.*\.tex")`" >> "$GITHUB_ENV"
-      - name: Hash all .tex source files
-        run: echo "SOURCE_HASH=${{ hashFiles(format('./{0}/', matrix.target)) }}" >> "$GITHUB_ENV"
-      - name: Check for hash changes
-        id: check-hash
-        run: |
-          chmod +x ./build/download-hash.sh
-          ./build/download-hash.sh ${{ matrix.target }} ${{ env.SOURCE_HASH }}
       - name: Compile target - ${{ matrix.target }}
         id: compile
         if: ${{ steps.check-hash.outputs.changed == 1 }}
@@ -93,7 +97,7 @@ jobs:
           curl https://shingzhanho.github.io/COMP2120-Notes/${${{ env.ROOT_FILE }}/.tex/.pdf} --output ./${{ matrix.target }}/${${{ env.ROOT_FILE }}/.tex/.pdf}
       ## Cache the MiKTeX packages if apt cache or miktex cache did not hit
       - name: Cache MiKTeX packages
-        if: ${{ !(steps.apt-install.outputs.cache-hit == 'true' && steps.miktex-cache.outputs.cache-hit)  }}
+        if: ${{ !(steps.apt-install.outputs.cache-hit == 'true' && steps.miktex-cache.outputs.cache-hit) && steps.check-hash.outputs.changed == 1 }}
         uses: actions/cache/save@v4
         with:
           key: miktex-pkg-${{ runner.os }}-${{ hashFiles(format('./{0}/packages.tex', matrix.target)) }}
