@@ -8,7 +8,7 @@ replenish new bits with 0.\\
 are logical operations.\\
 
 \subsection*{Instruction Operands}
-Op\# \hfill Symbolic \hfill Interpret\\
+Op\# \hfill Symbolic \hfill Interpretation\\
 3 \hspace*{0.2\linewidth} \texttt{OP A, B, C} \hfill \texttt{A$\gets$B OP C}\\
 2 \hspace*{0.2\linewidth} \texttt{OP A, B} \hfill \texttt{A$\gets$A OP B}\\
 1 \hspace*{0.2\linewidth} \texttt{OP A} \hfill \texttt{AC$\gets$AC OP A}\\
@@ -63,3 +63,45 @@ No floating point by hardware, must be emulated.
 \texttt{.global NAME} \hfill introduce to other files\\
 \texttt{.reserve EXPR} \hfill reserve space with 0\\
 \texttt{.word VAL1[, ...]} \hfill write to memory\\
+
+\subsection*{OS Support}
+\emph{OS Services}: \begin{enuminline}
+    \item Program creation (compilers), execution (loading, managing resources),
+    \item I/O access (provide uniform interface, implementation hidden),
+    \item File system management,
+    \item System access (user/kernel mode),
+    \item Error detection \& response (BSOD),
+    \item Accounting (collect usage stats)
+\end{enuminline} \\
+\emph{System Calls}: special entry points to execute OS functions via kernel model
+(executed by OS on behalf of user program)\\
+\emph{Scheduling \& Time Sharing}: CPU time divided into time slices, each process gets a slice,
+when used up, process is suspended and another process is scheduled.
+OS maintains a priority queue, depends on waiting time, system load, CPU-bound etc.
+
+\subsection*{Processor Pipelining}
+Ideal throughput = $1 \text{ CPI}$.
+
+\subsubsection*{Pipeline Hazards}
+\emph{Resource}: multiple instructions need the same resource (PC, ALU, registers).
+\textbf{Solution}: add more resources\\
+\emph{Data}: instruction depends on result of previous instruction -- \begin{enuminline}
+    \item \textbf{RAW}: occurs if read happens before write when it should be RAW;
+    \item \textbf{WAR}: opposite of RAW, not occurs in pipeline but in parallel systems;
+    \item \textbf{WAW}: occurs if 2nd write happens before 1st, not in pipeline but in parallel systems.
+\end{enuminline}
+\textbf{Solutions}: \begin{enuminline}
+    \item \textbf{Stalling}: wait;
+    \item \textbf{Data forwarding}: use result of previous instruction;
+    \item \textbf{Rearrange instructions}: separate dependent instructions, not always possible;
+\end{enuminline}\\
+\emph{Control}: branch not resolved. \textbf{Unsolvable}. Mitigated by branch prediction.
+
+\subsubsection*{Branch Prediction}
+\emph{Static}: always predict taken/not taken.
+\textbf{Pros}: simple, 50\% accuracy, higher in \texttt{for} loops.
+\textbf{Cons}: possible high page faults.\\
+\emph{Dynamic}: Use history to help predict. \begin{enuminline}
+    \item \textbf{1-bit}: If wrong prediction, predict opposite; Problem: high misprediction rate at the end of loops;
+    \item \textbf{2-bit}: If two consecutive wrong predictions, predict opposite.
+\end{enuminline}
