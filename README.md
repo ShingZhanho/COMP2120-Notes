@@ -8,8 +8,6 @@ The revision notes are automatically compiled and published on GitHub Pages.
 
 ## Exam Cheatsheet
 
-🚧 [**Working in Progress**] Contribution is welcome.
-
 An A4 double sided cheatsheet is also prepared for the final examination.
 
 [>> Download <<](https://shingzhanho.github.io/COMP2120-Notes/COMP2120-Cheatsheet.pdf)

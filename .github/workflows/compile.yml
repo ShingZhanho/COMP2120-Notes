@@ -46,7 +46,7 @@ jobs:
         id: check-hash
         run: |
           chmod +x ./build/download-hash.sh
-          ./build/download-hash.sh ${${{ env.ROOT_FILE }}/.tex/.pdf.hash} ${{ env.SOURCE_HASH }}
+          ./build/download-hash.sh ${{ env.ROOT_FILE }} ${{ env.SOURCE_HASH }}
       ## Install MiKTeX
       - name: Install MiKTeX and dependencies
         id: apt-install
