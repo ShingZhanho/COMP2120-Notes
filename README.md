@@ -1,3 +1,7 @@
+> [!warning]
+> This repository will be archived soon. All resources will be migrated to a new repository
+> for managing all course materials in a more systematic approach.
+
 # COMP2120 Notes
 
 ## Revision Notes
