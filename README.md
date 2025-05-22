@@ -1,6 +1,8 @@
 > [!warning]
-> This repository will be archived soon. All resources will be migrated to a new repository
-> for managing all course materials in a more systematic approach.
+> This repository has now been archived. The notes in this repo will receive no more updates.
+> This project has migrated to [ShingZhanho/HKU-Notes](https://github.com/ShingZhanho/HKU-Notes)
+> to provide a more systematic and streamlined auto deployment interface.
+> Please check out the new repository~
 
 # COMP2120 Notes
 
@@ -8,13 +10,13 @@
 
 The revision notes are automatically compiled and published on GitHub Pages.
 
-[>> Download <<](https://shingzhanho.github.io/COMP2120-Notes/COMP2120-Notes.pdf)
+[>> Download <<](https://shingzhanho.github.io/HKU-Notes)
 
 ## Exam Cheatsheet
 
 An A4 double sided cheatsheet is also prepared for the final examination.
 
-[>> Download <<](https://shingzhanho.github.io/COMP2120-Notes/COMP2120-Cheatsheet.pdf)
+[>> Download <<](https://shingzhanho.github.io/HKU-Notes)
 
 > [!warning]
 > You are responsible for checking the latest guidelines and requirements for the exam
